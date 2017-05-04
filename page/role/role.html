@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+    <title>角色设置</title>
+
+    <link rel="stylesheet" type="text/css" href="../../common/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" type="text/css" href="../../common/css/easyui/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../common/css/common.css">
+    <link rel="stylesheet" type="text/css" href="role.css">
+    <script type="text/javascript" src="../../common/js/jquery-1.12.3.js"></script>
+    <script type="text/javascript" src="../../common/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../../common/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../common/js/json2.js"></script>
+    <script type="text/javascript" src="../../common/js/common.js"></script>
+    <script type="text/javascript" src="role.js"></script>
+    <script type="text/javascript" src="bindUser.js"></script>
+    <script type="text/javascript" src="roleResource.js"></script>
+    <style>
+        .left{width:15%; height:550px;float:left;overflow: auto;}
+        .right{width:85%; height:550px;float:left;overflow: auto;}
+        .sp{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            width:400px;
+            display:block;
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+<!-- 角色列表 -->
+<div data-options="region: 'north',border: false" class="top_div border_btm_blue">
+    <a id="btn_add" href="#" class="easyui-linkbutton" data-options="disabled: false">新增角色</a>
+</div>
+
+<div data-options="region: 'center',border: false" style="" id="content">
+<table id="dg"></table>
+</div>
+
+<!-- 新增/编辑对话框 -->
+<div id="dd" style="display: none;overflow: hidden;">
+    <div style="width: 100%;height: 100%;">
+        <table>
+            <tr>
+                <td class="label">角色名称：</td>
+                <td>
+                    <input id="ddId" type="hidden">
+                    <input id="roleName" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:300px">
+                    <span id="imgInfo" style="color:red;width:auto">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <span id="errorInfo" style="color:red;width:auto"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">角色描述：</td>
+                <td>
+                    <textarea id="roleDemo" class="textbox textarea.textbox-text" data-options="iconCls:'icon-search'"
+                              style="width:300px;height: 150px;white-space: normal;overflow: auto"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="right">
+                    <span id="wriLen">0</span>/200字符
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="text-align: center;padding-top: 30px;">
+                    <a id="btn_cancel" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 40px;margin-right: 10px;">取消</a>
+                    <a id="btn_enter" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 40px;">确认</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- 删除对话框 -->
+<div id="del" style="display: none;overflow: hidden;">
+    <div style="width: 100%;height: 100%;">
+        <table>
+            <tr>
+                <td colspan="2" align="center">
+                    <span >是否要删除</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <span id="delRole"></span>&nbsp;角色
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;padding-top: 20px;">
+                    <a id="del_btn_cancel" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 50px;margin-right: 10px;">取消</a>
+                    <a id="del_btn_enter" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 50px;">确认</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- 绑定账号对话框 -->
+<div id="bind">
+    <div data-options="region: 'north',border: false" class="top_div border_btm_blue">
+        <a id="bind_add" href="#" class="easyui-linkbutton" data-options="disabled: false" style="width: 50px;">添加</a>
+    </div>
+    <div data-options="region: 'center',border: false" style=""  id="content">
+        <input id="roleId" type="hidden">
+        <table id="bind_dg"></table>
+    </div>
+</div>
+
+<!-- 添加绑定账号-->
+<div id="bindUser" class="content" style="display: none;">
+    <div class="content-box">
+        <div class="content border-box01 distop12">
+            <div class="main">
+                <div style="font-weight:bold;font-size: 14px">组织部门</div>
+                <div class="choosecp-left choosecp-list">
+                    <ul id="tree" class="ztree"></ul>
+                </div>
+                <div class="title" style="font-weight:bold;font-size: 14px">部门人数</div>
+                <div class="choosecp-mid choosecp-list" id="ChildMenu">
+                    <ul id="dataSource">
+                    </ul>
+                </div>
+                <div class="choosecp-btn">
+                    <ul>
+                        <li><button  onclick="add()" id="add" >添加<i>&raquo;</i></button></li>
+                        <li><button  onclick="remove()"><i>&laquo;</i>移除</button></li>
+                        <li style="padding-top: 230px"><button  onclick="save()" >确定</button></li>
+                        <li><button onclick="closeBindUser()" id="closeBindUser">取消</button></li>
+                    </ul>
+                </div>
+                <div class="title" style="font-weight:bold;font-size: 14px">已选人员</div>
+                <select id="choosed" multiple class="choosecp-right choosecp-list" style="overflow:hidden;">
+                </select>
+                <input id="rid" type="hidden"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 权限设置 -->
+<div id="resource" class="main">
+    <div data-options="region: 'north',border: false" class="top_div border_btm_blue">
+        <div style="width: 100%;height: 100%;">
+            <p style="font-weight:bold;font-size: 14px;margin-top: 5px;margin-left: 20px;">
+                角色名称：<span id="rName"></span>
+            </p>
+            <p class="sp" style="font-weight:bold;font-size: 14px;margin-left: 20px;">
+                角色描述：<span id="rDesc"></span>
+            </p>
+            <div style="width: 150px;height: 30px;margin-left: 1020px;">
+                <p>
+                    <button id="res_save" onclick="saveResource()">保存</button>
+                    <button id="res_close" onclick="closeResource()">取消</button>
+                </p>
+            </div>
+        </div>
+        <!--<p style="font-weight:bold;font-size: 14px;margin-top: 5px;margin-left: 20px;">
+            角色名称：<span id="rName"></span>
+        </p>
+        <p class="sp" style="font-weight:bold;font-size: 14px;margin-left: 20px;">
+            角色描述：<span id="rDesc"></span>
+        </p>
+        <p>
+            <button id="res_save" style="margin-left: 1020px" onclick="saveResource()">保存</button>
+            <button id="res_close" onclick="closeResource()">取消</button>
+        </p>-->
+    </div>
+    <div class="left">
+        <ul id="rTree" class="ztree"></ul>
+    </div>
+    <div class="right">
+        <input id="res_roleId" type="hidden"/>
+        <input id="res_resourceId" type="hidden"/>
+        <table id="resource_dg" style="width: 100%"></table>
+    </div>
+</div>
+
+<!-- 其他选项设置 -->
+<div id="other" class="content" style="display: none;">
+    <div data-options="region: 'north',border: false" class="top_div border_btm_blue">
+        <select id="other_sel" onchange="otherSelect(this)" style="margin-left: 20px;margin-top: 13px;">
+            <option value="0">部门</option>
+            <option value="1">人员</option>
+        </select>
+        <input id="resId" type="hidden">
+    </div>
+    <!-- 部门 -->
+    <div class="content-box" id="other_dept">
+        <div class="content border-box01 distop12">
+            <div class="main" style="margin-left: 20px;margin-top: 10px;">
+                <div style="font-weight:bold;font-size: 14px">组织部门</div>
+                <div class="choosecp-left-other choosecp-list-other">
+                    <ul id="other_dept_tree" class="ztree"></ul>
+                </div>
+                <div class="choosecp-btn-other" style="margin-left: 50px;">
+                    <ul>
+                        <li><button  onclick="addOther(0)">添加<i>&raquo;</i></button></li>
+                        <li><button  onclick="removeOther(0)"><i>&laquo;</i>移除</button></li>
+                        <li style="padding-top: 190px"><button  onclick="saveOther(0)" >确定</button></li>
+                        <li><button onclick="closeOther()" id="closeDeptOther">取消</button></li>
+                    </ul>
+                </div>
+                <div class="title" style="font-weight:bold;font-size: 14px">已选部门</div>
+                <select id="deptChoose" multiple class="choosecp-right-other choosecp-list-other" style="overflow:hidden;">
+                </select>
+                <input id="other_deptId" type="hidden">
+            </div>
+        </div>
+    </div>
+    <!-- 用户 -->
+    <div class="content-box" id="other_user" style="display: none">
+        <div class="content border-box01 distop12">
+            <div class="main" style="margin-left: 20px;margin-top: 10px;">
+                <div style="font-weight:bold;font-size: 14px">组织部门</div>
+                <div class="choosecp-left choosecp-list-other">
+                    <ul id="other_user_tree" class="ztree"></ul>
+                </div>
+                <div class="title" style="font-weight:bold;font-size: 14px">部门用户</div>
+                <div class="choosecp-mid choosecp-list-other" id="otherChildMenu">
+                    <ul id="other_dataSource">
+                    </ul>
+                </div>
+                <div class="choosecp-btn">
+                    <ul>
+                        <li><button  onclick="addOther(1)">添加<i>&raquo;</i></button></li>
+                        <li><button  onclick="removeOther(1)"><i>&laquo;</i>移除</button></li>
+                        <li style="padding-top: 190px"><button  onclick="saveOther(1)" >确定</button></li>
+                        <li><button onclick="closeOther()" id="closeUserOther">取消</button></li>
+                    </ul>
+                </div>
+                <div class="title" style="font-weight:bold;font-size: 14px">已选人员</div>
+                <select id="userChoose" multiple class="choosecp-right choosecp-list-other" style="overflow:hidden;">
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

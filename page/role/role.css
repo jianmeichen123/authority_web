@@ -1,0 +1,89 @@
+.top_div {
+    height: 70px;
+}
+.left_div {
+    width: 200px;
+}
+#btn_add {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+#content {
+    width: 100%;
+    height: 100%;
+}
+#dd table {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#dd table .label {
+    text-align: right;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 60px;
+}
+#details table {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#details table .label {
+    text-align: right;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 60px;
+}
+#del table {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#bind_add {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+#bindUser .content {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.datagrid-btable{table-layout:fixed;}
+.datagrid-btable td div{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#other .top_div{
+    height: 50px;
+}
+#other_sel{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.border-box01 .main{ height:auto; overflow:hidden;}
+.choosecp-list{ float:left; height:400px; background-color:#fff; border:#cdcdcd solid 1px; overflow-x:auto; overflow-y:scroll;}
+.choosecp-list h3{ color:#333; padding:0 0.8em;}
+.choosecp-list li{ font-size:14px; list-style:none;}
+.choosecp-list ul{ font-size:14px; list-style:none;padding-left: 0;margin-top: 0px;}
+.choosecp-list input[type="checkbox"],
+.choosecp-list input[type="radio"]{ margin-right:5px; vertical-align:middle;}
+.choosecp-list h3:hover, .choosecp-list li:hover{ background-color:#ebf2f8;}
+.choosecp-list h3.cur, .choosecp-list li.cur{ background-color:#46a5e7!important; color:#fff;}
+.choosecp-left{ width:160px;}
+.choosecp-left h3, .choosecp-left li, .choosecp-right h3, .choosecp-right li{ cursor:pointer;}
+.choosecp-mid{ width:160px;margin-left: 20px;}
+.choosecp-mid h3:hover, .choosecp-mid li:hover{ background-color:transparent!important;}
+.choosecp-right{ width:160px;margin-left: 20px;}
+.choosecp-right li{!important;}
+.choosecp-arrows{ float:left; width:20px; color:#aaa; font-size:20px; text-align:center; line-height:400px;}
+.choosecp-btn{ float:left; padding:0 20px;padding-left: 0;}
+.choosecp-btn li{ height:auto; overflow:hidden; padding-bottom:15px; clear:both; list-style:none;}
+.title{margin-top: -19px;float: left;margin-left: 20px;}
+
+.choosecp-left-other{ width:200px;}
+.choosecp-btn-other { float:left; padding:0 70px;padding-left: 0;}
+.choosecp-btn-other li{ height:auto; overflow:hidden; padding-bottom:15px; clear:both; list-style:none;}
+.choosecp-right-other{ width:200px;margin-left: 20px;}
+.choosecp-list-other { float:left; height:370px; background-color:#fff; border:#cdcdcd solid 1px; overflow-x:auto; overflow-y:scroll;}
+.choosecp-list-other li{ font-size:14px; list-style:none;}
+.choosecp-list-other ul{ font-size:14px; list-style:none;padding-left: 0;margin-top: 0px;}

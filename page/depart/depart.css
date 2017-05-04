@@ -1,0 +1,24 @@
+
+
+.top_div {
+	height: 60px;
+}
+
+#btn_add {
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.left_div {
+	width: 200px;
+}
+
+#content {
+	width: 100%;
+	height: 100%;
+}
+
+#dd .field {
+	margin-left: 40px;
+	margin-top: 10px;
+}

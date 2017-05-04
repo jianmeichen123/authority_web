@@ -1,0 +1,32 @@
+
+body,div,p{
+	padding: 0;
+	margin: 0;
+	font-family: 微软雅黑,宋体;
+}
+
+.border_top_blue {
+	border-top: solid 1px #199ed7;
+}
+
+.border_left_blue {
+	border-left: solid 1px #199ed7;
+}
+
+.border_btm_blue {
+	border-bottom: solid 1px #199ed7;
+}
+
+.border_right_blue {
+	border-right: solid 1px #199ed7;
+}
+
+.datagrid_button {
+	color: blue;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.datagrid_button:hover {
+	cursor: pointer;
+}

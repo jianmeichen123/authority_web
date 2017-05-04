@@ -1,0 +1,26 @@
+
+
+.top_div {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+
+#content {
+	width: 100%;
+	height: 100%;
+}
+
+#dd table {
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#dd table .label {
+	text-align: right;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	width: 60px;
+
+}

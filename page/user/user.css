@@ -1,0 +1,23 @@
+
+
+.top_div {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+
+#content {
+	width: 100%;
+	height: 100%;
+}
+
+.left_div {
+	width: 200px;
+}
+
+#resetPassword table {
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
