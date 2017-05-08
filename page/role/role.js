@@ -15,13 +15,22 @@ $(function(){
         pagination: true,
         singleSelect: true,
         columns:[[
-            {field:'roleName',title:'角色名称',width: '25%',align: 'left'},
+            {field:'roleName',title:'角色名称',width: '25%',align: 'left',formatter: function (value){
+                    if(value!=null&&value!=""){
+                        return "<span title='" + value + "'>" + value + "</span>";
+                    }
+                }
+            },
             {field:'roleDemo',title:'角色描述',width:'25%',align: 'left',formatter: function (value){
-                    return "<span title='" + value + "'>" + value + "</span>";
+                    if(value!=null&&value!=""){
+                        return "<span title='" + value + "'>" + value + "</span>";
+                    }
                 }
             },
             {field:'userName',title:'已关联账号',width: '25%',align:'left',formatter: function (value){
-                    return "<span title='" + value + "'>" + value + "</span>";
+                    if(value!=null&&value!=""){
+                        return "<span title='" + value + "'>" + value + "</span>";
+                    }
                 }
             },
             {field:'option',title:'操作',width: '25%',align:'left',formatter: function(value,row,index){
@@ -81,6 +90,13 @@ $(function(){
                     $("#roleDemo").val("");
                     $("#ddId").val("");
                     loadOne();
+                }else{
+                    alert(data.message);
+                    $("#imgInfo").html("*");
+                    $("#wriLen").html("0");
+                    $("#roleName").textbox("setText","");
+                    $("#roleDemo").val("");
+                    $("#ddId").val("");
                 }
             });
         }
@@ -182,6 +198,8 @@ function fun_operation(state,index) {
         $("#rName").html(rows[index].roleName);
         $("#rDesc").html(rows[index].roleDemo);
         $("#rDesc").attr("title",rows[index].roleDemo);
+        $("#rName").html(rows[index].roleName);
+        $("#rName").attr("title",rows[index].roleName);
         $("#res_roleId").val(id);
         //加载列表
         resourceInit();

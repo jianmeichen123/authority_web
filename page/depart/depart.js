@@ -404,8 +404,17 @@ function loadDstData(pageNumber,pageSize){
     }
 
     $.util.postObj(url,JSON.stringify(paramMap),function (data) {
-        if(data.success){
+        if (data.value.total == 0) {
+            //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
             $('#dst').datagrid('loadData', data.value);
+            $('#dst').datagrid('appendRow', { loginName: '<div style="text-align:center;color:red">没有相关记录！</div>' })
+                .datagrid('mergeCells', { index: 0, field: 'loginName', colspan: 4 })
+            $('#dst').closest('div.datagrid-wrap').find('div.datagrid-pager').hide();
+        }else{
+            $('#dst').closest('div.datagrid-wrap').find('div.datagrid-pager').show();
+            if(data.success){
+                $('#dst').datagrid('loadData', data.value);
+            }
         }
     });
 }

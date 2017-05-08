@@ -106,6 +106,7 @@ function add(){
         }
     }
     addbut1[0].checked = false;
+    var count=0;
     for(i = 0;i < addbut1.length;i++){
         if(addbut1[i].checked)
         {
@@ -121,9 +122,10 @@ function add(){
                         if(purityTypeO[j].value == nodeId){
                             addbut1[i].checked = false;
                             flag = true;
-                            alert("请不要重复选择");
+                            count++;
                         }
                     }
+
                     if(addbut1[i].checked){
                         element.options.add(new Option(nodeName,nodeId));
                         addbut1[i].checked = false;
@@ -135,6 +137,9 @@ function add(){
                     flag = true;
                 }}
         }
+    }
+    if(count>0){
+        alert("请不要重复选择");
     }
     if(!flag) {
         alert('最少选择一个');

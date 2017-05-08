@@ -360,17 +360,26 @@ function addOther(pam){
                  var element = document.getElementById("deptChoose");
                  var purityTypeL = document.getElementById('deptChoose').options.length;
                  var purityTypeO = document.getElementById('deptChoose').options;
+                 var count=0;
                  $.each(data.value,function(key,value){
+                     var flag = true;
                      if(purityTypeL != '0'){
                          for(var j = 0;j < purityTypeL;j++){
-                             if(purityTypeO[j].value == key){
-                                 alert("请不要重复选择");
+                             if(purityTypeO[j].value == key) {
+                                 count++;
+                                 flag = false;
                              }
+                         }
+                         if(flag){
+                             element.options.add(new Option(value,key));
                          }
                      }else{
                          element.options.add(new Option(value,key));
                      }
                  });
+                 if(count>0){
+                     alert("请不要重复选择");
+                 }
              }
         });
     }else{
@@ -385,6 +394,7 @@ function addOther(pam){
             }
         }
         addbut1[0].checked = false;
+        var  count=0;
         for(i = 0;i < addbut1.length;i++){
             if(addbut1[i].checked)
             {
@@ -400,7 +410,7 @@ function addOther(pam){
                             if(purityTypeO[j].value == nodeId){
                                 addbut1[i].checked = false;
                                 flag = true;
-                                alert("请不要重复选择");
+                                count++;
                             }
                         }
                         if(addbut1[i].checked){
@@ -415,6 +425,9 @@ function addOther(pam){
                     }
                 }
             }
+        }
+        if(count>0){
+            alert("请不要重复选择");
         }
         if(!flag) {
             alert('最少选择一个');
