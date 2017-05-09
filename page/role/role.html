@@ -30,6 +30,13 @@
             width:400px;
             display:block;
         }
+        .dl{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            width:150px;
+            display:block;
+        }
     </style>
 </head>
 <body class="easyui-layout">
@@ -96,11 +103,16 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <span id="delRole"></span>&nbsp;角色
+                    <span id="delRole" class="dl"></span>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="text-align: center;padding-top: 20px;">
+                <td colspan="2" align="center">
+                    <span>角色</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;padding-top: 10px;">
                     <a id="del_btn_cancel" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 50px;margin-right: 10px;">取消</a>
                     <a id="del_btn_enter" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 50px;">确认</a>
                 </td>

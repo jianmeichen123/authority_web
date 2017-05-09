@@ -180,6 +180,7 @@ function fun_operation(state,index) {
     }//删除
     else if (state == 2) {
         $("#delRole").html(rows[index].roleName);
+        $("#delRole").attr("title",rows[index].roleName);
         $.util.dialogOpen(del);
     }//查看绑定账号
     else if(state == 3){
@@ -209,14 +210,29 @@ function fun_operation(state,index) {
     }
 
     //添加按钮打开绑定对话框
-    $("#bind_add").click(function(){
+    $("#bind_add").unbind("click").bind("click",function(){
         //页面传值
         $("#rid").val(id);
         $("#dataSource").empty();
         $("#choosed").empty();
+        //回显已选人员
+        showUerName(id);
         $.util.dialogOpen(bindUser);
     });
 
+    //回显添加账号的已选人员
+    function showUerName(id) {
+        var url = $.util.baseUrl + "/role/showUerName";
+        var paramObj = {};
+        paramObj.roleId=id;
+        $.util.postObj(url,JSON.stringify(paramObj),function(data){
+            var obj = eval(data.value);
+            var element = document.getElementById("choosed");
+            for(var i=0;i<obj.length;i++){
+                element.options.add(new Option(obj[i].name,obj[i].id));
+            }
+        });
+    }
     //关闭删除对话框
     $("#del_btn_cancel").unbind('click').click(function(){
         $.util.dialogClose(del);
@@ -224,15 +240,15 @@ function fun_operation(state,index) {
 
     //删除确认按钮
     $("#del_btn_enter").unbind('click').click(function(){
+        $.util.dialogClose(del);
         checkBindUser(id,function(data) {
             if(data.success){
                 var url = $.util.baseUrl + "/role/delRoleById";
                 var paramMap = {};
                 paramMap.id = id;
+
                 $.util.postObj(url,JSON.stringify(paramMap),function(data){
                     if(data.success){
-                        $.util.dialogClose(del);
-
                         var options = $('#dg').datagrid('getPager').data("pagination").options;
                         var curr = options.pageNumber;
                         var pageSize = options.pageSize;
@@ -249,8 +265,8 @@ function fun_operation(state,index) {
                     }
                 });
             }else{
+                //$.util.dialogClose(del);
                 alert("请先解绑用户才能删除此角色");
-                $.util.dialogClose(del);
             }
         })
     });
