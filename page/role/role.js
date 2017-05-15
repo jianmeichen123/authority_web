@@ -65,7 +65,6 @@ $(function(){
 
     //新增确认按钮
     $("#btn_enter").click(function(){
-        alert(11)
         //检验角色名称
         if ($("#roleName").textbox("getText").replace(/\s/g, "") == '') {
             $("#errorInfo").html("角色名称不能为空");
