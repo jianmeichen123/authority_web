@@ -2,7 +2,7 @@
 
 $(function(){
 	var util = {};
-	util.baseUrl = "http://fx.galaxyinternet.com/authority_service";			//dev
+	util.baseUrl = "http://fx.dev.galaxyinternet.com/authority_service";			//dev
     //util.baseUrl = "http://10.8.232.205/authority_service";		//online
 	
 	/**
