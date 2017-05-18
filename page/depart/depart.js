@@ -156,34 +156,37 @@ $(function(){
         paramJson.depName = $("#departName").textbox("getText");
         paramJson.id = $("#depId").val();
         paramJson.depManager = $("#departManagerId").val();
-
-        //更新节点
-		//zTreeObj.getNodeByParam("id",paramJson.departId);
-        var jsonString = JSON.stringify(paramJson);
-        var url = $.util.baseUrl + "/depart/save";
-        $.util.postObj(url,jsonString,function(data){
-           	if($.util.objectIsNotEmpty(data)){
-                //刷新树型列表
-           		if(data.success){
-           		    if("update"==data.value){
-                        alert("更新成功");
-                        $.util.dialogClose(dialog_add);
-                        loadList(paramJson.id);
-                        loadZtree(paramJson.id);
+        //校验
+        if ($("#departName").textbox("getText").replace(/\s/g, "") == '') {
+            layer.msg("部门名称不能为空，请重新输入");
+        }else{
+            //更新节点
+            //zTreeObj.getNodeByParam("id",paramJson.departId);
+            var jsonString = JSON.stringify(paramJson);
+            var url = $.util.baseUrl + "/depart/save";
+            $.util.postObj(url,jsonString,function(data){
+                if($.util.objectIsNotEmpty(data)){
+                    //刷新树型列表
+                    if(data.success){
+                        if("update"==data.value){
+                            alert("更新成功");
+                            $.util.dialogClose(dialog_add);
+                            loadList(paramJson.id);
+                            loadZtree(paramJson.id);
+                        }else{
+                            alert("添加成功");
+                            $("#departName").textbox("setText","");
+                            $.util.dialogClose(dialog_add);
+                            //刷新节点=
+                            var curNode = zTreeObj.getNodeByParam("id",paramJson.parentId);
+                            zTreeObj.addNodes(curNode, data.value);
+                        }
                     }else{
-           		        alert("添加成功");
-                        $("#departName").textbox("setText","");
-                        $.util.dialogClose(dialog_add);
-                        //刷新节点=
-                        var curNode = zTreeObj.getNodeByParam("id",paramJson.parentId);
-                        zTreeObj.addNodes(curNode, data.value);
+                        alert(data.message);
                     }
-
-				}else{
-           		    alrt("操作失败，请重试");
                 }
-			}
-        });
+            });
+        }
 	});
 
     /**
