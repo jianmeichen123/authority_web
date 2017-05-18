@@ -67,11 +67,9 @@ $(function(){
     $("#btn_enter").click(function(){
         //检验角色名称
         if ($("#roleName").textbox("getText").replace(/\s/g, "") == '') {
-            $("#errorInfo").html("角色名称不能为空");
-            return ;
+            layer.msg("角色名称不能为空");
         } else if ($("#roleName").textbox("getText").replace(/\s/g, "").length > '100') {
-            $("#errorInfo").html("角色名称长度最大100个字，请重新输入!");
-            return ;
+            layer.msg("角色名称长度最大100个字，请重新输入!");
         } else {
             $("#errorInfo").html("");
             $("#imgInfo").html(acceptImg);
