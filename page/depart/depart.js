@@ -5,7 +5,6 @@ var dialog_show;
 var dialog_sel;
 var find_dst_param = {};
 
-alert(88);
 var setting = {
     view: {
         showLine: false,
