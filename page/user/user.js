@@ -242,6 +242,27 @@ $(function(){
                     $("#telPhone").textbox("setText","");
                     $("#address").textbox("setText","");
                     loadOne();
+                }else{
+                    alert(data.message);
+                    $("#loginNameInfo").html("*");
+                    $("#userNameInfo").html("*");
+                    $("#positionInfo").html("*");
+                    $("#mobilePhoneInfo").html("*");
+                    $("#email1Info").html("*");
+                    $("#departInfo").html("*");
+                    $("#loginName").textbox("setText","");
+                    $("#userName").textbox("setText","");
+                    $("#position").textbox("setText","");
+                    $("#mobilePhone").textbox("setText","");
+                    $("#email1").textbox("setText","");
+                    $("#depart").combo('setValue',"");
+                    $("#depart").combo('setText',"");
+                    $("#position").combo('setText',"");
+                    $("#position").combo('setText',"");
+                    $("input[type='radio'][name='sex']").get(0).checked = true;
+                    $("#employNo").textbox("setText","");
+                    $("#telPhone").textbox("setText","");
+                    $("#address").textbox("setText","");
                 }
             });
         }
