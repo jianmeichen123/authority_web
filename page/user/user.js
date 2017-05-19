@@ -125,7 +125,7 @@ $(function(){
     /**
      * 新增或编辑账号对话框 - 确认
      */
-    $("#btn_enter").click(function(){
+    $("#btn_enter").unbind("click").bind("click",function(){
         //校验
         var loginNameFlag = false;
         var userNameFlag = false;

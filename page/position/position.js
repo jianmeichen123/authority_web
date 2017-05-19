@@ -82,6 +82,7 @@ $(function(){
      */
     $("#btn_add").click(function(){
         $("#postId").val("");
+        $("#postName").textbox("setText","");
         var dialog_add = $.util.dialog("dd","新增职位","",500,200);
         $.util.dialogOpen(dialog_add);
 
@@ -98,22 +99,27 @@ $(function(){
         var url = $.util.baseUrl + "/position/savePosition";
         var paramMap = {};
         paramMap.posName = $("#postName").textbox("getText");
-        var postId = $("#postId").val();
-        if(postId!=null && $.trim(postId)!=""){
-            paramMap.id = postId;
-        }
 
-        $.util.postObj(url,JSON.stringify(paramMap),function(data){
-            if(data.success){
-                $.util.dialogClose(dialog_add);
-                alert("保存成功");
-                $("#postId").val("");
-                $("#postName").textbox("setText","");
-                loadOne();
-            }else{
-                alert("保存失败");
+        //校验
+        if ($("#postName").textbox("getText").replace(/\s/g, "") == '') {
+            layer.msg("职位名称不能为空，请重新输入");
+        }else{
+            var postId = $("#postId").val();
+            if(postId!=null && $.trim(postId)!=""){
+                paramMap.id = postId;
             }
-        });
+            $.util.postObj(url,JSON.stringify(paramMap),function(data){
+                if(data.success){
+                    $.util.dialogClose(dialog_add);
+                    alert("保存成功");
+                    $("#postId").val("");
+                    $("#postName").textbox("setText","");
+                    loadOne();
+                }else{
+                    alert(data.message);
+                }
+            });
+        }
     });
 
 });
