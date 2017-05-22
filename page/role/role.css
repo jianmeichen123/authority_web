@@ -76,12 +76,12 @@
 .choosecp-right{ width:160px;margin-left: 20px;}
 .choosecp-right li{!important;}
 .choosecp-arrows{ float:left; width:20px; color:#aaa; font-size:20px; text-align:center; line-height:400px;}
-.choosecp-btn{ float:left; padding:0 20px;padding-left: 0;}
+.choosecp-btn{ float:left; padding:0 30px;padding-left: 50px;}
 .choosecp-btn li{ height:auto; overflow:hidden; padding-bottom:15px; clear:both; list-style:none;}
 .title{margin-top: -19px;float: left;margin-left: 20px;}
 
 .choosecp-left-other{ width:200px;}
-.choosecp-btn-other { float:left; padding:0 70px;padding-left: 0;}
+.choosecp-btn-other { float:left; padding:0 75px;padding-left: 55px;}
 .choosecp-btn-other li{ height:auto; overflow:hidden; padding-bottom:15px; clear:both; list-style:none;}
 .choosecp-right-other{ width:200px;margin-left: 20px;}
 .choosecp-list-other { float:left; height:370px; background-color:#fff; border:#cdcdcd solid 1px; overflow-x:auto; overflow-y:scroll;}
