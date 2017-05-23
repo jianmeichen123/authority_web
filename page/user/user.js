@@ -135,6 +135,7 @@ $(function(){
         var departFlag = false;
 
         var loginName = $("#loginName").textbox("getText");
+        var oldLoginName = $("#oldLoginName").val();
         var userName = $("#userName").textbox("getText");
         var position = $("#position").textbox("getText");
         var mobilePhone = $("#mobilePhone").textbox("getText");
@@ -212,6 +213,7 @@ $(function(){
             var url = $.util.baseUrl + "/user/saveOrUpdate";
             var paramMap = {};
             paramMap.loginName = loginName;
+            paramMap.oldLoginName = oldLoginName;
             paramMap.userName = userName;
             paramMap.position = position;
             paramMap.mobilePhone = mobilePhone;
@@ -227,6 +229,7 @@ $(function(){
 
             $.util.postObj(url,JSON.stringify(paramMap),function(data){
                 if(data.success){
+                    alert("保存成功");
                     $.util.dialogClose(dialog_add);
                     $("#loginName").textbox("setText","");
                     $("#userName").textbox("setText","");
@@ -244,7 +247,7 @@ $(function(){
                     loadOne();
                 }else{
                     alert(data.message);
-                    $("#loginNameInfo").html("*");
+                    /*$("#loginNameInfo").html("*");
                     $("#userNameInfo").html("*");
                     $("#positionInfo").html("*");
                     $("#mobilePhoneInfo").html("*");
@@ -262,7 +265,7 @@ $(function(){
                     $("input[type='radio'][name='sex']").get(0).checked = true;
                     $("#employNo").textbox("setText","");
                     $("#telPhone").textbox("setText","");
-                    $("#address").textbox("setText","");
+                    $("#address").textbox("setText","");*/
                 }
             });
         }
@@ -450,6 +453,7 @@ function fun_outtageOrDelOrReset(state,index){
         $("#email1Info").html("*");
         $("#departInfo").html("*");
         $("#loginName").textbox("setText",obj.loginName);
+        $("#oldLoginName").val(obj.loginName);
         $("#userName").textbox("setText",obj.userName);
         $("#mobilePhone").textbox("setText",obj.mobilePhone);
         $("#email1").textbox("setText",obj.email1);

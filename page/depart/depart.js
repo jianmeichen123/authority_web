@@ -154,6 +154,7 @@ $(function(){
 		var paramJson = {};
         paramJson.parentId = $("#cc").combotree("getValue");
         paramJson.depName = $("#departName").textbox("getText");
+        paramJson.oldDepName = $("#oldDepartName").val();
         paramJson.id = $("#depId").val();
         paramJson.depManager = $("#departManagerId").val();
         //校验
@@ -316,6 +317,7 @@ function fun_edit(index){
 
     $("#cc").combotree("setValue",{id: superId,text: superName});
     $("#departName").textbox("setValue",depName);
+    $("#oldDepartName").val(depName);
     $("#depId").val(depId);
     $("#departManagerId").val();
     $("#departManagerName").textbox("setValue",depManagerName);

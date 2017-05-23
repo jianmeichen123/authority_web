@@ -99,6 +99,7 @@ $(function(){
         var url = $.util.baseUrl + "/position/savePosition";
         var paramMap = {};
         paramMap.posName = $("#postName").textbox("getText");
+        paramMap.oldPosName = $("#oldPostName").val();
 
         //校验
         if ($("#postName").textbox("getText").replace(/\s/g, "") == '') {
@@ -167,6 +168,7 @@ function fun_operation(state,index){
         var rows = $('#dg').datagrid('getRows');
         var id = rows[index].id;
         $("#postName").textbox("setText",rows[index].posName);
+        $("#oldPostName").val(rows[index].posName);
         $("#postId").val(id);
         $.util.dialogOpen(dialog);
 

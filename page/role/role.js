@@ -76,6 +76,7 @@ $(function(){
             var url = $.util.baseUrl + "/role/saveRole";
             var paramMap = {};
             paramMap.roleName = $("#roleName").textbox("getText");
+            paramMap.oldRoleName = $("#oldRoleName").val();
             paramMap.roleDemo  = $("#roleDemo").val();
             var ddId = $("#ddId").val();
             if(ddId!=null && $.trim(ddId)!=""){
@@ -83,6 +84,7 @@ $(function(){
             }
             $.util.postObj(url,JSON.stringify(paramMap),function(data){
                 if(data.success){
+                    alert("保存成功");
                     $.util.dialogClose(dialog_add);
                     $("#roleName").textbox("setText","");
                     $("#roleDemo").val("");
@@ -171,6 +173,7 @@ function fun_operation(state,index) {
     if (state == 1) {
         $("#wriLen").html(rows[index].roleDemo.length);
         $("#roleName").textbox("setText",rows[index].roleName);
+        $("#oldRoleName").val(rows[index].roleName);
         $("#roleDemo").val(rows[index].roleDemo);
         $("#ddId").val(id);
         $("#imgInfo").html("*");
