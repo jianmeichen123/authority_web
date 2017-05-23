@@ -159,7 +159,10 @@ $(function(){
         //校验
         if ($("#departName").textbox("getText").replace(/\s/g, "") == '') {
             layer.msg("部门名称不能为空，请重新输入");
-        }else{
+        }else if(paramJson.parentId!=null&&paramJson.parentId!=''&&
+            paramJson.id!=null&&paramJson.id!=''&&paramJson.parentId==paramJson.id){
+            layer.msg("上级部门和该部门名称相同，请重新选择");
+        } else{
             //更新节点
             //zTreeObj.getNodeByParam("id",paramJson.departId);
             var jsonString = JSON.stringify(paramJson);
