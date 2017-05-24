@@ -43,7 +43,7 @@ $(function(){
         singleSelect: true,
         toolbar: '#tb',
         columns:[[
-            {field:'loginName',title:'登录帐号',width: '20%',align: 'left'},
+            {field:'loginName',title:'登录账号',width: '20%',align: 'left'},
             {field:'userName',title:'姓名',width:'10%',align: 'left'},
             {field:'depName',title:'所属部门',width: '20%',align:'left'},
             {field:'posName',title:'职位',width: '10%',align:'left'},
