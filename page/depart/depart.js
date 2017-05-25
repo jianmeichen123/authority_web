@@ -48,7 +48,7 @@ $(function(){
             loadDrData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadDrData(0,10);
+            loadDrData(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -81,7 +81,7 @@ $(function(){
             loadDstData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadDstData(0,10);
+            loadDstData(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -144,6 +144,8 @@ $(function(){
 	 * 取消按钮
 	 */
 	$("#btn_cancel").click(function(){
+	    //取消节点选中状态
+        zTreeObj.cancelSelectedNode();
 		$.util.dialogClose(dialog_add);
 	});
 	
@@ -184,6 +186,8 @@ $(function(){
                             //刷新节点=
                             var curNode = zTreeObj.getNodeByParam("id",paramJson.parentId);
                             zTreeObj.addNodes(curNode, data.value);
+                            //取消节点选中状态
+                            zTreeObj.cancelSelectedNode();
                         }
                     }else{
                         alert(data.message);
@@ -209,8 +213,11 @@ $(function(){
         find_dst_param.userName = "";
         find_dst_param.departmentId = "";
 
+        var options = $('#dst').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
         //加载用户列表
-        loadDstData(0,10);
+        loadDstData(curr,pageSize);
         $.util.dialogOpen(dialog_sel);
     });
 
@@ -226,7 +233,10 @@ $(function(){
         find_dst_param.userName = $.trim(userName);
         find_dst_param.departmentId = $.trim(departmentId);
 
-        loadDstData(0,10);
+        var options = $('#dst').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
+        loadDstData(curr,pageSize);
     });
 
     /**
@@ -277,11 +287,12 @@ function loadZtree(id){
 
         zTreeObj.expandAll(true);
         //刷新后重新选择节点
-        if($.util.objectIsNotEmpty(id)){
+        //取消节点选中状态--li
+        /*if($.util.objectIsNotEmpty(id)){
             var curNode = zTreeObj.getNodeByParam("id",id);
             //zTreeObj.expandNode(curNode, true, false, false);
             zTreeObj.selectNode(curNode);
-        }
+        }*/
         //else{
         //    var nodes = zTreeObj.getNodes();
         //    zTreeObj.expandNode(nodes[0], true, false, false);
@@ -297,8 +308,10 @@ function fun_look(index){
     var rows = $('#dg').datagrid('getRows');
     var id = rows[index].id;
     $("#departmentId").val(id);
-
-    loadDrData(0,10);
+    var options = $('#drt').datagrid('getPager').data("pagination").options;
+    var curr = options.pageNumber;
+    var pageSize = options.pageSize;
+    loadDrData(curr,pageSize);
     $.util.dialogOpen(dialog_show);
 }
 

@@ -73,7 +73,7 @@ $(function(){
             loadData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadOne();
+            loadOne(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -83,7 +83,7 @@ $(function(){
     });
 
     //默认加载首页
-    loadOne();
+    loadOne(0,10);
 
     /**
      * 新增按钮
@@ -244,7 +244,10 @@ $(function(){
                     $("#employNo").textbox("setText","");
                     $("#telPhone").textbox("setText","");
                     $("#address").textbox("setText","");
-                    loadOne();
+                    var options = $('#dg').datagrid('getPager').data("pagination").options;
+                    var curr = options.pageNumber;
+                    var pageSize = options.pageSize;
+                    loadOne(curr,pageSize);
                 }else{
                     alert(data.message);
                     /*$("#loginNameInfo").html("*");
@@ -342,7 +345,10 @@ $(function(){
         find_param.email1 = email1;
         find_param.state = state;
 
-        loadOne();
+        var options = $('#dg').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
+        loadOne(curr,pageSize);
     });
 
 
@@ -351,8 +357,8 @@ $(function(){
 /**
  * 加载首页
  */
-function loadOne(){
-    loadData(0,10);
+function loadOne(pageNumber,pageSize){
+    loadData(pageNumber,pageSize);
 }
 
 /**

@@ -43,7 +43,7 @@ $(function(){
     });
 
     //默认加载首页
-    loadOne();
+    loadOne(0,10);
 
     //打开新增按钮
     $("#btn_add").click(function(){
@@ -85,11 +85,14 @@ $(function(){
             $.util.postObj(url,JSON.stringify(paramMap),function(data){
                 if(data.success){
                     alert("保存成功");
+                    var options = $('#dg').datagrid('getPager').data("pagination").options;
+                    var curr = options.pageNumber;
+                    var pageSize = options.pageSize;
                     $.util.dialogClose(dialog_add);
                     $("#roleName").textbox("setText","");
                     $("#roleDemo").val("");
                     $("#ddId").val("");
-                    loadOne();
+                    loadOne(curr,pageSize);
                 }else{
                     alert(data.message);
                     $("#imgInfo").html("*");
@@ -127,7 +130,7 @@ $(function(){
             loadData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadOne();
+            loadOne(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -138,8 +141,8 @@ $(function(){
 })
 
 //加载页面列表
-function loadOne(){
-    loadData(0,10);
+function loadOne(pageNumber,pageSize){
+    loadData(pageNumber,pageSize);
 }
 //加载列表页
 function loadData(pageNo,pageSize){

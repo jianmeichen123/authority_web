@@ -56,7 +56,7 @@ $(function(){
             loadData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadOne();
+            loadOne(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -65,7 +65,7 @@ $(function(){
     });
 
     //默认加载首页
-    loadOne();
+    loadOne(0,10);
 
     /**
      * 查找按钮
@@ -73,8 +73,10 @@ $(function(){
     $("#btn_find").click(function(){
         find_param.findKey = $("#find_name").textbox("getValue");
         find_param.isOuttage = $("#state_combo").combo("getValue");
-
-        loadOne();
+        var options = $('#dg').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
+        loadOne(curr,pageSize);
     });
 
     /**
@@ -115,7 +117,10 @@ $(function(){
                     alert("保存成功");
                     $("#postId").val("");
                     $("#postName").textbox("setText","");
-                    loadOne();
+                    var options = $('#dg').datagrid('getPager').data("pagination").options;
+                    var curr = options.pageNumber;
+                    var pageSize = options.pageSize;
+                    loadOne(curr,pageSize);
                 }else{
                     alert(data.message);
                 }
@@ -125,8 +130,8 @@ $(function(){
 
 });
 
-function loadOne(){
-    loadData(0,10);
+function loadOne(pageNumber,pageSize){
+    loadData(pageNumber,pageSize);
 }
 
 function fun_operation(state,index){
