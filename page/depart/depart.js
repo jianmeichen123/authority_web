@@ -136,6 +136,7 @@ $(function(){
         //清空部门名称和部门负责人
         $("#departName").textbox("setText","");
         $("#departManagerName").textbox("setText","");
+        $("input[type='radio'][name='isCareerLine']").get(0).checked = true;
         var dialog_add = $.util.dialog("dd","新增部门","",500,300);
         $.util.dialogOpen(dialog_add);
 	});
@@ -152,13 +153,14 @@ $(function(){
 	/**
 	 * 确认按钮
 	 */
-	$("#btn_enter").click(function(){
+	$("#btn_enter").unbind("click").bind("click",function(){
 		var paramJson = {};
         paramJson.parentId = $("#cc").combotree("getValue");
         paramJson.depName = $("#departName").textbox("getText");
         paramJson.oldDepName = $("#oldDepartName").val();
         paramJson.id = $("#depId").val();
         paramJson.depManager = $("#departManagerId").val();
+        paramJson.isCareerLine = $("input[name='isCareerLine']:checked").val();
         //校验
         if ($("#departName").textbox("getText").replace(/\s/g, "") == '') {
             layer.msg("部门名称不能为空，请重新输入");
@@ -335,6 +337,7 @@ function fun_edit(index){
     $("#departManagerId").val();
     $("#departManagerName").textbox("setValue",depManagerName);
     $("#departManagerId").val(depManager);
+    $("input[type='radio'][name='isCareerLine']").get(rows[index].isCareerLine).checked = true;
 
     //初始化树型下拉列表
     var url = $.util.baseUrl + "/depart/getDepartComboxTree";
