@@ -48,7 +48,7 @@ $(function(){
             loadDrData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadDrData(0,10);
+            loadDrData(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -81,7 +81,7 @@ $(function(){
             loadDstData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadDstData(0,10);
+            loadDstData(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -136,6 +136,7 @@ $(function(){
         //清空部门名称和部门负责人
         $("#departName").textbox("setText","");
         $("#departManagerName").textbox("setText","");
+        $("input[type='radio'][name='isCareerLine']").get(0).checked = true;
         var dialog_add = $.util.dialog("dd","新增部门","",500,300);
         $.util.dialogOpen(dialog_add);
 	});
@@ -144,46 +145,58 @@ $(function(){
 	 * 取消按钮
 	 */
 	$("#btn_cancel").click(function(){
+	    //取消节点选中状态
+        zTreeObj.cancelSelectedNode();
 		$.util.dialogClose(dialog_add);
 	});
 	
 	/**
 	 * 确认按钮
 	 */
-	$("#btn_enter").click(function(){
+	$("#btn_enter").unbind("click").bind("click",function(){
 		var paramJson = {};
         paramJson.parentId = $("#cc").combotree("getValue");
         paramJson.depName = $("#departName").textbox("getText");
+        paramJson.oldDepName = $("#oldDepartName").val();
         paramJson.id = $("#depId").val();
         paramJson.depManager = $("#departManagerId").val();
-
-        //更新节点
-		//zTreeObj.getNodeByParam("id",paramJson.departId);
-        var jsonString = JSON.stringify(paramJson);
-        var url = $.util.baseUrl + "/depart/save";
-        $.util.postObj(url,jsonString,function(data){
-           	if($.util.objectIsNotEmpty(data)){
-                //刷新树型列表
-           		if(data.success){
-           		    if("update"==data.value){
-                        alert("更新成功");
-                        $.util.dialogClose(dialog_add);
-                        loadList(paramJson.id);
-                        loadZtree(paramJson.id);
+        paramJson.isCareerLine = $("input[name='isCareerLine']:checked").val();
+        //校验
+        if ($("#departName").textbox("getText").replace(/\s/g, "") == '') {
+            layer.msg("部门名称不能为空，请重新输入");
+        }else if(paramJson.parentId!=null&&paramJson.parentId!=''&&
+            paramJson.id!=null&&paramJson.id!=''&&paramJson.parentId==paramJson.id){
+            layer.msg("上级部门和该部门名称相同，请重新选择");
+        } else{
+            //更新节点
+            //zTreeObj.getNodeByParam("id",paramJson.departId);
+            var jsonString = JSON.stringify(paramJson);
+            var url = $.util.baseUrl + "/depart/save";
+            $.util.postObj(url,jsonString,function(data){
+                if($.util.objectIsNotEmpty(data)){
+                    //刷新树型列表
+                    if(data.success){
+                        if("update"==data.value){
+                            alert("更新成功");
+                            $.util.dialogClose(dialog_add);
+                            loadList(paramJson.id);
+                            loadZtree(paramJson.id);
+                        }else{
+                            alert("添加成功");
+                            $("#departName").textbox("setText","");
+                            $.util.dialogClose(dialog_add);
+                            //刷新节点=
+                            var curNode = zTreeObj.getNodeByParam("id",paramJson.parentId);
+                            zTreeObj.addNodes(curNode, data.value);
+                            //取消节点选中状态
+                            zTreeObj.cancelSelectedNode();
+                        }
                     }else{
-           		        alert("添加成功");
-                        $("#departName").textbox("setText","");
-                        $.util.dialogClose(dialog_add);
-                        //刷新节点=
-                        var curNode = zTreeObj.getNodeByParam("id",paramJson.parentId);
-                        zTreeObj.addNodes(curNode, data.value);
+                        alert(data.message);
                     }
-
-				}else{
-           		    alrt("操作失败，请重试");
                 }
-			}
-        });
+            });
+        }
 	});
 
     /**
@@ -202,8 +215,11 @@ $(function(){
         find_dst_param.userName = "";
         find_dst_param.departmentId = "";
 
+        var options = $('#dst').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
         //加载用户列表
-        loadDstData(0,10);
+        loadDstData(curr,pageSize);
         $.util.dialogOpen(dialog_sel);
     });
 
@@ -219,7 +235,10 @@ $(function(){
         find_dst_param.userName = $.trim(userName);
         find_dst_param.departmentId = $.trim(departmentId);
 
-        loadDstData(0,10);
+        var options = $('#dst').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
+        loadDstData(curr,pageSize);
     });
 
     /**
@@ -270,11 +289,12 @@ function loadZtree(id){
 
         zTreeObj.expandAll(true);
         //刷新后重新选择节点
-        if($.util.objectIsNotEmpty(id)){
+        //取消节点选中状态--li
+        /*if($.util.objectIsNotEmpty(id)){
             var curNode = zTreeObj.getNodeByParam("id",id);
             //zTreeObj.expandNode(curNode, true, false, false);
             zTreeObj.selectNode(curNode);
-        }
+        }*/
         //else{
         //    var nodes = zTreeObj.getNodes();
         //    zTreeObj.expandNode(nodes[0], true, false, false);
@@ -290,8 +310,10 @@ function fun_look(index){
     var rows = $('#dg').datagrid('getRows');
     var id = rows[index].id;
     $("#departmentId").val(id);
-
-    loadDrData(0,10);
+    var options = $('#drt').datagrid('getPager').data("pagination").options;
+    var curr = options.pageNumber;
+    var pageSize = options.pageSize;
+    loadDrData(curr,pageSize);
     $.util.dialogOpen(dialog_show);
 }
 
@@ -310,10 +332,12 @@ function fun_edit(index){
 
     $("#cc").combotree("setValue",{id: superId,text: superName});
     $("#departName").textbox("setValue",depName);
+    $("#oldDepartName").val(depName);
     $("#depId").val(depId);
     $("#departManagerId").val();
     $("#departManagerName").textbox("setValue",depManagerName);
     $("#departManagerId").val(depManager);
+    $("input[type='radio'][name='isCareerLine']").get(rows[index].isCareerLine).checked = true;
 
     //初始化树型下拉列表
     var url = $.util.baseUrl + "/depart/getDepartComboxTree";
@@ -404,8 +428,17 @@ function loadDstData(pageNumber,pageSize){
     }
 
     $.util.postObj(url,JSON.stringify(paramMap),function (data) {
-        if(data.success){
+        if (data.value.total == 0) {
+            //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
             $('#dst').datagrid('loadData', data.value);
+            $('#dst').datagrid('appendRow', { loginName: '<div style="text-align:center;color:red">没有相关记录！</div>' })
+                .datagrid('mergeCells', { index: 0, field: 'loginName', colspan: 4 })
+            $('#dst').closest('div.datagrid-wrap').find('div.datagrid-pager').hide();
+        }else{
+            $('#dst').closest('div.datagrid-wrap').find('div.datagrid-pager').show();
+            if(data.success){
+                $('#dst').datagrid('loadData', data.value);
+            }
         }
     });
 }

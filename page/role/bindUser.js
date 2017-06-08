@@ -106,6 +106,8 @@ function add(){
         }
     }
     addbut1[0].checked = false;
+    var count=0;
+    var ele='';
     for(i = 0;i < addbut1.length;i++){
         if(addbut1[i].checked)
         {
@@ -113,7 +115,7 @@ function add(){
             if(node!=''&&node!='on'){
                 var nodeId=node.split(":")[0];
                 var nodeName=node.split(":")[1];
-                var element = document.getElementById("choosed");
+                //var element = document.getElementById("choosed");
                 var purityTypeL = document.getElementById('choosed').options.length;
                 var purityTypeO = document.getElementById('choosed').options;
                 if(purityTypeL != '0'){
@@ -121,25 +123,54 @@ function add(){
                         if(purityTypeO[j].value == nodeId){
                             addbut1[i].checked = false;
                             flag = true;
-                            alert("请不要重复选择");
+                            count++;
                         }
                     }
+
                     if(addbut1[i].checked){
-                        element.options.add(new Option(nodeName,nodeId));
+                        //element.options.add(new Option(nodeName,nodeId));
+                        ele+=nodeId+',';
                         addbut1[i].checked = false;
                         flag = true;
                     }
                 }else{
-                    element.options.add(new Option(nodeName,nodeId));
+                    //element.options.add(new Option(nodeName,nodeId));
+                    ele+=nodeId+',';
                     addbut1[i].checked = false;
                     flag = true;
                 }}
         }
     }
+    if(count>0){
+        alert("请不要重复选择");
+    }
     if(!flag) {
         alert('最少选择一个');
     }
+
+    //已选用户判断是否已经绑定角色，去掉已绑定的用户
+    var url = $.util.baseUrl + "/role/isRelRoleUser";
+    var paramMap = {};
+    paramMap.userIdStr = ele;
+    $.util.postObj(url, JSON.stringify(paramMap), function (data) {
+        if (data.success) {
+            var existName ='';
+            var obj = eval(data.value);
+            var element = document.getElementById("choosed");
+            for(var i=0;i<obj.length;i++){
+                if(obj[i].flag==0){
+                    element.options.add(new Option(obj[i].name,obj[i].id));
+                }else{
+                    existName+=obj[i].name+'，';
+                }
+            }
+            if(existName!=''){
+                alert("其中"+existName+"这些用户已绑定角色")
+            }
+        }
+    })
 }
+
 //移除
 function remove(){
     var element = document.getElementById("choosed");

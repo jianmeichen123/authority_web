@@ -15,13 +15,22 @@ $(function(){
         pagination: true,
         singleSelect: true,
         columns:[[
-            {field:'roleName',title:'角色名称',width: '25%',align: 'left'},
+            {field:'roleName',title:'角色名称',width: '25%',align: 'left',formatter: function (value){
+                    if(value!=null&&value!=""){
+                        return "<span title='" + value + "'>" + value + "</span>";
+                    }
+                }
+            },
             {field:'roleDemo',title:'角色描述',width:'25%',align: 'left',formatter: function (value){
-                    return "<span title='" + value + "'>" + value + "</span>";
+                    if(value!=null&&value!=""){
+                        return "<span title='" + value + "'>" + value + "</span>";
+                    }
                 }
             },
             {field:'userName',title:'已关联账号',width: '25%',align:'left',formatter: function (value){
-                    return "<span title='" + value + "'>" + value + "</span>";
+                    if(value!=null&&value!=""){
+                        return "<span title='" + value + "'>" + value + "</span>";
+                    }
                 }
             },
             {field:'option',title:'操作',width: '25%',align:'left',formatter: function(value,row,index){
@@ -34,7 +43,7 @@ $(function(){
     });
 
     //默认加载首页
-    loadOne();
+    loadOne(0,10);
 
     //打开新增按钮
     $("#btn_add").click(function(){
@@ -58,17 +67,16 @@ $(function(){
     $("#btn_enter").click(function(){
         //检验角色名称
         if ($("#roleName").textbox("getText").replace(/\s/g, "") == '') {
-            $("#errorInfo").html("角色名称不能为空");
-            return ;
+            layer.msg("角色名称不能为空");
         } else if ($("#roleName").textbox("getText").replace(/\s/g, "").length > '100') {
-            $("#errorInfo").html("角色名称长度最大100个字，请重新输入!");
-            return ;
+            layer.msg("角色名称长度最大100个字，请重新输入!");
         } else {
             $("#errorInfo").html("");
             $("#imgInfo").html(acceptImg);
             var url = $.util.baseUrl + "/role/saveRole";
             var paramMap = {};
             paramMap.roleName = $("#roleName").textbox("getText");
+            paramMap.oldRoleName = $("#oldRoleName").val();
             paramMap.roleDemo  = $("#roleDemo").val();
             var ddId = $("#ddId").val();
             if(ddId!=null && $.trim(ddId)!=""){
@@ -76,11 +84,22 @@ $(function(){
             }
             $.util.postObj(url,JSON.stringify(paramMap),function(data){
                 if(data.success){
+                    alert("保存成功");
+                    var options = $('#dg').datagrid('getPager').data("pagination").options;
+                    var curr = options.pageNumber;
+                    var pageSize = options.pageSize;
                     $.util.dialogClose(dialog_add);
                     $("#roleName").textbox("setText","");
                     $("#roleDemo").val("");
                     $("#ddId").val("");
-                    loadOne();
+                    loadOne(curr,pageSize);
+                }else{
+                    alert(data.message);
+                    $("#imgInfo").html("*");
+                    $("#wriLen").html("0");
+                    $("#roleName").textbox("setText","");
+                    $("#roleDemo").val("");
+                    $("#ddId").val("");
                 }
             });
         }
@@ -111,7 +130,7 @@ $(function(){
             loadData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadOne();
+            loadOne(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -122,8 +141,8 @@ $(function(){
 })
 
 //加载页面列表
-function loadOne(){
-    loadData(0,10);
+function loadOne(pageNumber,pageSize){
+    loadData(pageNumber,pageSize);
 }
 //加载列表页
 function loadData(pageNo,pageSize){
@@ -157,6 +176,7 @@ function fun_operation(state,index) {
     if (state == 1) {
         $("#wriLen").html(rows[index].roleDemo.length);
         $("#roleName").textbox("setText",rows[index].roleName);
+        $("#oldRoleName").val(rows[index].roleName);
         $("#roleDemo").val(rows[index].roleDemo);
         $("#ddId").val(id);
         $("#imgInfo").html("*");
@@ -164,6 +184,7 @@ function fun_operation(state,index) {
     }//删除
     else if (state == 2) {
         $("#delRole").html(rows[index].roleName);
+        $("#delRole").attr("title",rows[index].roleName);
         $.util.dialogOpen(del);
     }//查看绑定账号
     else if(state == 3){
@@ -182,6 +203,8 @@ function fun_operation(state,index) {
         $("#rName").html(rows[index].roleName);
         $("#rDesc").html(rows[index].roleDemo);
         $("#rDesc").attr("title",rows[index].roleDemo);
+        $("#rName").html(rows[index].roleName);
+        $("#rName").attr("title",rows[index].roleName);
         $("#res_roleId").val(id);
         //加载列表
         resourceInit();
@@ -191,14 +214,29 @@ function fun_operation(state,index) {
     }
 
     //添加按钮打开绑定对话框
-    $("#bind_add").click(function(){
+    $("#bind_add").unbind("click").bind("click",function(){
         //页面传值
         $("#rid").val(id);
         $("#dataSource").empty();
         $("#choosed").empty();
+        //回显已选人员
+        showUerName(id);
         $.util.dialogOpen(bindUser);
     });
 
+    //回显添加账号的已选人员
+    function showUerName(id) {
+        var url = $.util.baseUrl + "/role/showUerName";
+        var paramObj = {};
+        paramObj.roleId=id;
+        $.util.postObj(url,JSON.stringify(paramObj),function(data){
+            var obj = eval(data.value);
+            var element = document.getElementById("choosed");
+            for(var i=0;i<obj.length;i++){
+                element.options.add(new Option(obj[i].name,obj[i].id));
+            }
+        });
+    }
     //关闭删除对话框
     $("#del_btn_cancel").unbind('click').click(function(){
         $.util.dialogClose(del);
@@ -206,15 +244,15 @@ function fun_operation(state,index) {
 
     //删除确认按钮
     $("#del_btn_enter").unbind('click').click(function(){
+        $.util.dialogClose(del);
         checkBindUser(id,function(data) {
             if(data.success){
                 var url = $.util.baseUrl + "/role/delRoleById";
                 var paramMap = {};
                 paramMap.id = id;
+
                 $.util.postObj(url,JSON.stringify(paramMap),function(data){
                     if(data.success){
-                        $.util.dialogClose(del);
-
                         var options = $('#dg').datagrid('getPager').data("pagination").options;
                         var curr = options.pageNumber;
                         var pageSize = options.pageSize;
@@ -231,8 +269,8 @@ function fun_operation(state,index) {
                     }
                 });
             }else{
+                //$.util.dialogClose(del);
                 alert("请先解绑用户才能删除此角色");
-                $.util.dialogClose(del);
             }
         })
     });

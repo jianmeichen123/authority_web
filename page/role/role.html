@@ -20,6 +20,7 @@
     <script type="text/javascript" src="role.js"></script>
     <script type="text/javascript" src="bindUser.js"></script>
     <script type="text/javascript" src="roleResource.js"></script>
+    <script type="text/javascript" src="../../page/login/layer.js"></script>
     <style>
         .left{width:15%; height:550px;float:left;overflow: auto;}
         .right{width:85%; height:550px;float:left;overflow: auto;}
@@ -28,6 +29,13 @@
             text-overflow: ellipsis;
             white-space:nowrap;
             width:400px;
+            display:block;
+        }
+        .dl{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            width:150px;
             display:block;
         }
     </style>
@@ -51,13 +59,8 @@
                 <td>
                     <input id="ddId" type="hidden">
                     <input id="roleName" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:300px">
-                    <span id="imgInfo" style="color:red;width:auto">*</span>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <span id="errorInfo" style="color:red;width:auto"></span>
+                    <span id="imgInfo" style="color:red;width:auto;display:inline-block">*</span>
+                    <input id="oldRoleName" type="hidden">
                 </td>
             </tr>
 
@@ -96,11 +99,16 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <span id="delRole"></span>&nbsp;角色
+                    <span id="delRole" class="dl"></span>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="text-align: center;padding-top: 20px;">
+                <td colspan="2" align="center">
+                    <span>角色</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;padding-top: 10px;">
                     <a id="del_btn_cancel" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 50px;margin-right: 10px;">取消</a>
                     <a id="del_btn_enter" href="#" class="easyui-linkbutton" data-options="" style="margin: 0;padding: 0;width: 50px;">确认</a>
                 </td>
@@ -129,7 +137,7 @@
                 <div class="choosecp-left choosecp-list">
                     <ul id="tree" class="ztree"></ul>
                 </div>
-                <div class="title" style="font-weight:bold;font-size: 14px">部门人数</div>
+                <div class="title" style="font-weight:bold;font-size: 14px">部门人员</div>
                 <div class="choosecp-mid choosecp-list" id="ChildMenu">
                     <ul id="dataSource">
                     </ul>
@@ -143,7 +151,7 @@
                     </ul>
                 </div>
                 <div class="title" style="font-weight:bold;font-size: 14px">已选人员</div>
-                <select id="choosed" multiple class="choosecp-right choosecp-list" style="overflow:hidden;">
+                <select id="choosed" multiple class="choosecp-right choosecp-list">
                 </select>
                 <input id="rid" type="hidden"/>
             </div>
@@ -155,7 +163,7 @@
 <div id="resource" class="main">
     <div data-options="region: 'north',border: false" class="top_div border_btm_blue">
         <div style="width: 100%;height: 100%;">
-            <p style="font-weight:bold;font-size: 14px;margin-top: 5px;margin-left: 20px;">
+            <p class="sp" style="font-weight:bold;font-size: 14px;margin-top: 5px;margin-left: 20px;">
                 角色名称：<span id="rName"></span>
             </p>
             <p class="sp" style="font-weight:bold;font-size: 14px;margin-left: 20px;">
@@ -215,7 +223,7 @@
                     </ul>
                 </div>
                 <div class="title" style="font-weight:bold;font-size: 14px">已选部门</div>
-                <select id="deptChoose" multiple class="choosecp-right-other choosecp-list-other" style="overflow:hidden;">
+                <select id="deptChoose" multiple class="choosecp-right-other choosecp-list-other">
                 </select>
                 <input id="other_deptId" type="hidden">
             </div>
@@ -229,7 +237,7 @@
                 <div class="choosecp-left choosecp-list-other">
                     <ul id="other_user_tree" class="ztree"></ul>
                 </div>
-                <div class="title" style="font-weight:bold;font-size: 14px">部门用户</div>
+                <div class="title" style="font-weight:bold;font-size: 14px">部门人员</div>
                 <div class="choosecp-mid choosecp-list-other" id="otherChildMenu">
                     <ul id="other_dataSource">
                     </ul>
@@ -243,7 +251,7 @@
                     </ul>
                 </div>
                 <div class="title" style="font-weight:bold;font-size: 14px">已选人员</div>
-                <select id="userChoose" multiple class="choosecp-right choosecp-list-other" style="overflow:hidden;">
+                <select id="userChoose" multiple class="choosecp-right choosecp-list-other">
                 </select>
             </div>
         </div>

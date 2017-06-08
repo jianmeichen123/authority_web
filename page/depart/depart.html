@@ -18,6 +18,7 @@
 	<script type="text/javascript" src="../../common/js/json2.js"></script>
 	<script type="text/javascript" src="../../common/js/common.js"></script>
 	<script type="text/javascript" src="depart.js"></script>
+	<script type="text/javascript" src="../../page/login/layer.js"></script>
 </head>
 <body class="easyui-layout">
 	
@@ -34,7 +35,7 @@
 	</div>
 
 	<!-- 添加或编辑部门 -->
-	<div id="dd" style="display: none;">
+	<div id="dd" style="display: none;overflow: hidden;">
 		<input type="hidden" id="depId">
 		<div style="width: 100%;height: 100%;">
 			<p class="field">
@@ -45,13 +46,20 @@
 			<p  class="field">
 				部门名称：<br>
 				<input id="departName" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:400px">
+				<input id="oldDepartName" type="hidden">
 			</p>
 
-			<p  class="field">
-				部门负责人<br>
+			<p  class="field back"    >
+				部门负责人：<br>
 				<input id="departManagerName" class="easyui-textbox" data-options="iconCls:'icon-search',disabled: true" style="width:340px">
 				<input id="departManagerId" type="hidden">
 				<a id="btn_sel" href="#" class="easyui-linkbutton" data-options="disabled: false" style="width: 60px;">请选择</a>
+			</p>
+
+			<p  class="field"    >
+				是否投资事业线：
+				<input id="isCareerLine" name="isCareerLine" type="radio" value="0" checked="checked"/>否&nbsp;&nbsp;
+				<input id="isCareerLine" name="isCareerLine" type="radio" value="1" />是
 			</p>
 			
 			<div style="width: 100%;height: 40px;margin-top: 40px;">
@@ -76,10 +84,10 @@
 		<div id="toolbar_sel">
 			<div style="height: 30px;padding-top: 10px;padding-bottom: 10px;">
 				<div style="margin-left: 10px;">
-					<span>登录名：</span>
+					<span>登录账号：</span>
 					<input id="find_login_name" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:100px;">
 
-					<span style="margin-left: 10px;">用户名：</span>
+					<span style="margin-left: 10px;">姓名：</span>
 					<input id="find_user_name" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:100px;">
 
 					<span style="margin-left: 10px;">部门：</span>

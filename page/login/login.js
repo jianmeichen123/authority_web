@@ -20,8 +20,8 @@ function checkLogin(){
     paramMap.passWord = password;
     $.util.postObj(url,JSON.stringify(paramMap),function (data) {
         if(data.success){
-            //window.location.href="/authority_web/index.html";
-            window.location.href="/authority/index.html";
+            window.location.href="/authority_web/index.html";
+            //window.location.href="/authority/index.html";
         }else{
             //window.location.href="/authority/page/login/login.html";
             $("#errorInfo").html(data.message);

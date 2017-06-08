@@ -56,7 +56,7 @@ $(function(){
             loadData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadOne();
+            loadOne(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -65,7 +65,7 @@ $(function(){
     });
 
     //默认加载首页
-    loadOne();
+    loadOne(0,10);
 
     /**
      * 查找按钮
@@ -73,8 +73,10 @@ $(function(){
     $("#btn_find").click(function(){
         find_param.findKey = $("#find_name").textbox("getValue");
         find_param.isOuttage = $("#state_combo").combo("getValue");
-
-        loadOne();
+        var options = $('#dg').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
+        loadOne(curr,pageSize);
     });
 
     /**
@@ -82,6 +84,7 @@ $(function(){
      */
     $("#btn_add").click(function(){
         $("#postId").val("");
+        $("#postName").textbox("setText","");
         var dialog_add = $.util.dialog("dd","新增职位","",500,200);
         $.util.dialogOpen(dialog_add);
 
@@ -98,28 +101,37 @@ $(function(){
         var url = $.util.baseUrl + "/position/savePosition";
         var paramMap = {};
         paramMap.posName = $("#postName").textbox("getText");
-        var postId = $("#postId").val();
-        if(postId!=null && $.trim(postId)!=""){
-            paramMap.id = postId;
-        }
+        paramMap.oldPosName = $("#oldPostName").val();
 
-        $.util.postObj(url,JSON.stringify(paramMap),function(data){
-            if(data.success){
-                $.util.dialogClose(dialog_add);
-                alert("保存成功");
-                $("#postId").val("");
-                $("#postName").textbox("setText","");
-                loadOne();
-            }else{
-                alert("保存失败");
+        //校验
+        if ($("#postName").textbox("getText").replace(/\s/g, "") == '') {
+            layer.msg("职位名称不能为空，请重新输入");
+        }else{
+            var postId = $("#postId").val();
+            if(postId!=null && $.trim(postId)!=""){
+                paramMap.id = postId;
             }
-        });
+            $.util.postObj(url,JSON.stringify(paramMap),function(data){
+                if(data.success){
+                    $.util.dialogClose(dialog_add);
+                    alert("保存成功");
+                    $("#postId").val("");
+                    $("#postName").textbox("setText","");
+                    var options = $('#dg').datagrid('getPager').data("pagination").options;
+                    var curr = options.pageNumber;
+                    var pageSize = options.pageSize;
+                    loadOne(curr,pageSize);
+                }else{
+                    alert(data.message);
+                }
+            });
+        }
     });
 
 });
 
-function loadOne(){
-    loadData(0,10);
+function loadOne(pageNumber,pageSize){
+    loadData(pageNumber,pageSize);
 }
 
 function fun_operation(state,index){
@@ -161,6 +173,7 @@ function fun_operation(state,index){
         var rows = $('#dg').datagrid('getRows');
         var id = rows[index].id;
         $("#postName").textbox("setText",rows[index].posName);
+        $("#oldPostName").val(rows[index].posName);
         $("#postId").val(id);
         $.util.dialogOpen(dialog);
 
@@ -211,8 +224,17 @@ function loadData(pageNo,pageSize){
     paramMap.pageNo = pageNo;
     paramMap.pageSize = pageSize;
     $.util.postObj(url,JSON.stringify(paramMap),function (data) {
-        if(data.success){
+        if (data.value.total == 0) {
+            //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
             $('#dg').datagrid('loadData', data.value);
+            $('#dg').datagrid('appendRow', { posName: '<div style="text-align:center;color:red">没有相关记录！</div>' })
+                .datagrid('mergeCells', { index: 0, field: 'posName', colspan: 3 })
+            $('#dg').closest('div.datagrid-wrap').find('div.datagrid-pager').hide();
+        }else{
+            $('#dg').closest('div.datagrid-wrap').find('div.datagrid-pager').show();
+            if(data.success){
+                $('#dg').datagrid('loadData', data.value);
+            }
         }
     });
 }

@@ -18,11 +18,12 @@
 	<script type="text/javascript" src="../../common/js/json2.js"></script>
 	<script type="text/javascript" src="../../common/js/common.js"></script>
 	<script type="text/javascript" src="position.js"></script>
+	<script type="text/javascript" src="../../page/login/layer.js"></script>
 </head>
 <body class="easyui-layout">
 	
 	<div data-options="region: 'north',border: false" class="top_div border_btm_blue">
-		<span>查询名称：</span>
+		<span>职位名称：</span>
 		<input id="find_name" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:300px;">
 		<span style="margin-left: 20px;">状态：</span>
 		<input id="state_combo" class="easyui-combobox" name="dept" data-options="valueField:'id',textField:'text'">
@@ -38,7 +39,7 @@
 	</div>
 
 	<!-- 新增或编辑对话框 -->
-	<div id="dd" style="display: none;">
+	<div id="dd" style="display: none;overflow: hidden;">
 		<div style="width: 100%;height: 100%;">
 			<table>
 				<tr>
@@ -46,6 +47,7 @@
 					<td>
 						<input id="postId" type="hidden">
 						<input id="postName" class="easyui-textbox" data-options="iconCls:'icon-search'" style="width:300px">
+						<input id="oldPostName" type="hidden">
 					</td>
 				</tr>
 

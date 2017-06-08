@@ -43,7 +43,7 @@ $(function(){
         singleSelect: true,
         toolbar: '#tb',
         columns:[[
-            {field:'loginName',title:'登录帐号',width: '20%',align: 'left'},
+            {field:'loginName',title:'登录账号',width: '20%',align: 'left'},
             {field:'userName',title:'姓名',width:'10%',align: 'left'},
             {field:'depName',title:'所属部门',width: '20%',align:'left'},
             {field:'posName',title:'职位',width: '10%',align:'left'},
@@ -73,7 +73,7 @@ $(function(){
             loadData(pageNumber,pageSize);
         },
         onRefresh:function(pageNumber,pageSize){
-            loadOne();
+            loadOne(pageNumber,pageSize);
         },
         onChangePageSize:function(){
         },
@@ -83,7 +83,7 @@ $(function(){
     });
 
     //默认加载首页
-    loadOne();
+    loadOne(0,10);
 
     /**
      * 新增按钮
@@ -125,7 +125,7 @@ $(function(){
     /**
      * 新增或编辑账号对话框 - 确认
      */
-    $("#btn_enter").click(function(){
+    $("#btn_enter").unbind("click").bind("click",function(){
         //校验
         var loginNameFlag = false;
         var userNameFlag = false;
@@ -135,6 +135,7 @@ $(function(){
         var departFlag = false;
 
         var loginName = $("#loginName").textbox("getText");
+        var oldLoginName = $("#oldLoginName").val();
         var userName = $("#userName").textbox("getText");
         var position = $("#position").textbox("getText");
         var mobilePhone = $("#mobilePhone").textbox("getText");
@@ -212,6 +213,7 @@ $(function(){
             var url = $.util.baseUrl + "/user/saveOrUpdate";
             var paramMap = {};
             paramMap.loginName = loginName;
+            paramMap.oldLoginName = oldLoginName;
             paramMap.userName = userName;
             paramMap.position = position;
             paramMap.mobilePhone = mobilePhone;
@@ -227,6 +229,7 @@ $(function(){
 
             $.util.postObj(url,JSON.stringify(paramMap),function(data){
                 if(data.success){
+                    alert("保存成功");
                     $.util.dialogClose(dialog_add);
                     $("#loginName").textbox("setText","");
                     $("#userName").textbox("setText","");
@@ -241,7 +244,31 @@ $(function(){
                     $("#employNo").textbox("setText","");
                     $("#telPhone").textbox("setText","");
                     $("#address").textbox("setText","");
-                    loadOne();
+                    var options = $('#dg').datagrid('getPager').data("pagination").options;
+                    var curr = options.pageNumber;
+                    var pageSize = options.pageSize;
+                    loadOne(curr,pageSize);
+                }else{
+                    alert(data.message);
+                    /*$("#loginNameInfo").html("*");
+                    $("#userNameInfo").html("*");
+                    $("#positionInfo").html("*");
+                    $("#mobilePhoneInfo").html("*");
+                    $("#email1Info").html("*");
+                    $("#departInfo").html("*");
+                    $("#loginName").textbox("setText","");
+                    $("#userName").textbox("setText","");
+                    $("#position").textbox("setText","");
+                    $("#mobilePhone").textbox("setText","");
+                    $("#email1").textbox("setText","");
+                    $("#depart").combo('setValue',"");
+                    $("#depart").combo('setText',"");
+                    $("#position").combo('setText',"");
+                    $("#position").combo('setText',"");
+                    $("input[type='radio'][name='sex']").get(0).checked = true;
+                    $("#employNo").textbox("setText","");
+                    $("#telPhone").textbox("setText","");
+                    $("#address").textbox("setText","");*/
                 }
             });
         }
@@ -318,7 +345,10 @@ $(function(){
         find_param.email1 = email1;
         find_param.state = state;
 
-        loadOne();
+        var options = $('#dg').datagrid('getPager').data("pagination").options;
+        var curr = options.pageNumber;
+        var pageSize = options.pageSize;
+        loadOne(curr,pageSize);
     });
 
 
@@ -327,8 +357,8 @@ $(function(){
 /**
  * 加载首页
  */
-function loadOne(){
-    loadData(0,10);
+function loadOne(pageNumber,pageSize){
+    loadData(pageNumber,pageSize);
 }
 
 /**
@@ -367,9 +397,19 @@ function loadData(pageNo,pageSize){
     }
 
     $.util.postObj(url,JSON.stringify(paramMap),function (data) {
-        if(data.success){
+        if (data.value.total == 0) {
+            //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
             $('#dg').datagrid('loadData', data.value);
+            $('#dg').datagrid('appendRow', { loginName: '<div style="text-align:center;color:red">没有相关记录！</div>' })
+                .datagrid('mergeCells', { index: 0, field: 'loginName', colspan: 7 })
+            $('#dg').closest('div.datagrid-wrap').find('div.datagrid-pager').hide();
+        }else{
+            $('#dg').closest('div.datagrid-wrap').find('div.datagrid-pager').show();
+            if(data.success){
+                $('#dg').datagrid('loadData', data.value);
+            }
         }
+
     });
 }
 
@@ -419,6 +459,7 @@ function fun_outtageOrDelOrReset(state,index){
         $("#email1Info").html("*");
         $("#departInfo").html("*");
         $("#loginName").textbox("setText",obj.loginName);
+        $("#oldLoginName").val(obj.loginName);
         $("#userName").textbox("setText",obj.userName);
         $("#mobilePhone").textbox("setText",obj.mobilePhone);
         $("#email1").textbox("setText",obj.email1);
