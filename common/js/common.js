@@ -3,8 +3,8 @@
 $(function(){
 	var util = {};
     //util.baseUrl = "http://fx.galaxyinternet.com/authority_service";					//rc
-    util.baseUrl = "http://fx.qa.galaxyinternet.com/authority_service";					//qa
-	//util.baseUrl = "http://fx.dev.galaxyinternet.com/authority_service";				//dev
+    //util.baseUrl = "http://fx.qa.galaxyinternet.com/authority_service";					//qa
+	util.baseUrl = "http://fx.dev.galaxyinternet.com/authority_service";				//dev
     //util.baseUrl = "http://10.8.232.205/authority_service";							//online
     //util.baseUrl = "http://fx.local.galaxyinternet.com/authority";					//localhost
 	
