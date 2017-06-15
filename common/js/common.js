@@ -15,7 +15,7 @@ $(function(){
     //util.baseUrl = "http://10.8.232.205/authority_service";		//online
     //util.baseUrl = "http://localhost:8099" + util.serviceName;		//local
     // util.baseUrl = "http://fx.qa.galaxyinternet.com" + util.serviceName;		//qa
-    util.baseUrl = "http://fx.galaxyinternet.com" + util.serviceName;		//qa
+    util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;		//qa
 	
 	/**
 	 * 使用div来加载页面
