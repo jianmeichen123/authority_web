@@ -20,10 +20,12 @@ $(function(){
             return false;
         }
 
-        alert("1");
+
 
         //登录
         var url = $.util.baseUrl + "/login/loginself";
+        alert(url);
+
         var paramMap = {};
         paramMap.userName = username;
         paramMap.passWord = password;
