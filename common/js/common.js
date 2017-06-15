@@ -2,8 +2,12 @@
 
 $(function(){
 	var util = {};
-	util.baseUrl = "http://10.8.232.205/authority_service";			//dev
+	util.serviceName = "/authority_service";
+    util.webName = "/authority_web";
+
+	//util.baseUrl = "http://10.8.232.205/authority_service";			//dev
     //util.baseUrl = "http://10.8.232.205/authority_service";		//online
+    util.baseUrl = "http://localhost:8099" + util.serviceName;		//local
 	
 	/**
 	 * 使用div来加载页面
@@ -63,7 +67,14 @@ $(function(){
             dataType:"json",
             data: paramjson,
             contentType: "application/json; charset=utf-8",
+            headers: {
+				sessionId: util.getSessionId()
+			},
             success:function(data){
+            	//判断是否登录或过期
+				if(!data.success && parseInt(data.errorCode)===3){
+                    window.parent.location.href = $.util.webName + "/page/login/login.html";
+				}
                onSuccess(data);
             },
             error:function(){
@@ -81,8 +92,15 @@ $(function(){
             url: url,
             dataType:"text",
             data: paramjson,
+            headers: {
+				sessionId: util.getSessionId()
+			},
             contentType: "application/json; charset=utf-8",
             success:function(data){
+            	//判断是否登录或过期
+				if(!data.success && parseInt(data.errorCode)===3){
+                    window.parent.location.href = $.util.webName + "/page/login/login.html";
+				}
                 onSuccess(data);
             },
             error:function(){
@@ -123,7 +141,24 @@ $(function(){
 		return resArr;
 	}
 	
-	
+ /**
+	 * 获取sessionId
+	 * 规则：首先判断Cookie中是否存在，如果不存在需要从参数中获取
+     * @type {{}}
+     */
+    util.getSessionId = function(){
+        var sessionId = $.cookie("sessionId");
+        if(sessionId==null || sessionId==undefined){
+        	sessionId = util.getParameter("sessionId")
+		}
+		return sessionId;
+	}
+
+    util.getParameter = function(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return unescape(r[2]); return null;
+    }
 	
 	
 	

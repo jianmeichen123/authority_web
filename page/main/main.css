@@ -8,6 +8,7 @@ ul,li{
 .top_div {
 	height: 60px;
 	background: #199ed7;
+	position: relative;
 }
 
 .left_div {
@@ -29,10 +30,21 @@ ul,li{
 
 .sys_title {
 	height: 100%;
-	width: 100px;
+	width: 200px;
+	position: absolute;
 	font-size: 20px;
 	line-height: 60px;
 	margin-left: 20px;
 	color: white;
 }
 
+.sys_login_user {
+	width: 200px;
+	height: 100%;
+	right: 30px;
+	position: absolute;
+}
+
+.span_logout {
+	cursor: pointer;
+}
