@@ -6,6 +6,9 @@ $(function(){
     $("#menu_role").css("color","#199ed7");
     $("#content").attr("src",$.util.webName + "/page/role/role.html");  //?sessionId=" + $.util.getSessionId()
 
+    //设置登录人姓名
+    $("#span_user_name").html($.cookie("userName"));
+
 	$(".left_div ul li").click(function(){
 		$(this).css("color","#199ed7");
 		$(this).siblings().css("color","white");
