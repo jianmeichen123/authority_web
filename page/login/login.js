@@ -3,7 +3,7 @@
 $(function(){
     $("#a_login").click(function(){
 
-        alert("88");
+        alert("0");
 
         var username =$("#username").val();
         var password =$("#password").val();
@@ -19,6 +19,9 @@ $(function(){
             layer.tips('请输入密码', '#password');
             return false;
         }
+
+        alert("1");
+
         //登录
         var url = $.util.baseUrl + "/login/loginself";
         var paramMap = {};
@@ -30,7 +33,7 @@ $(function(){
                if(sessionId==null || sessionId==undefined){
                    alert("登录失败，请与管理员联系");
                }else{
-                    //alert(data.value.userName);
+                    alert(data.value.userName);
                     window.location.href = $.util.webName + "/page/main/main.html"; //?sessionId=" + data.value.sessionId
                     $.cookie("userName",data.value.userName,{expires: 7,path: "/"});
                     $.cookie("sessionId", sessionId, { expires: 7, path: '/'});
@@ -41,6 +44,8 @@ $(function(){
                 $("#errorInfo").html(data.message);
             }
         })
+
+        alert("3");
     });
 
 
