@@ -3,8 +3,8 @@
 $(function(){
     $("#a_login").click(function(){
 
-        alert("9999");
-    /*
+        alert("88");
+
         var username =$("#username").val();
         var password =$("#password").val();
         //校验用户名是否为空
@@ -40,7 +40,7 @@ $(function(){
                 //window.location.href="/authority/page/login/login.html";
                 $("#errorInfo").html(data.message);
             }
-        })*/
+        })
     });
 
 
