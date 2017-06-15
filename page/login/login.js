@@ -14,14 +14,22 @@ function checkLogin(){
         return false;
     }
     //登录
-    var url = $.util.baseUrl + "/login/userLogin";
+    var url = $.util.baseUrl + "/login/loginself";
     var paramMap = {};
     paramMap.userName = username;
     paramMap.passWord = password;
     $.util.postObj(url,JSON.stringify(paramMap),function (data) {
         if(data.success){
-            window.location.href="/authority_web/index.html";
-            //window.location.href="/authority/index.html";
+           var sessionId = data.value.sessionId;
+           if(sessionId==null || sessionId==undefined){
+               alert("登录失败，请与管理员联系");
+           }else{
+                //alert(data.value.userName);
+                window.location.href = $.util.webName + "/page/main/main.html"; //?sessionId=" + data.value.sessionId
+                $.cookie("userName",data.value.userName,{expires: 7,path: "/"});
+                $.cookie("sessionId", sessionId, { expires: 7, path: '/'});
+            }
+
         }else{
             //window.location.href="/authority/page/login/login.html";
             $("#errorInfo").html(data.message);
