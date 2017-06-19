@@ -11,11 +11,11 @@ $(function(){
 	util.serviceName = "/authority_service";
     util.webName = "/authority_web";
 
-	//util.baseUrl = "http://10.8.232.205/authority_service";			//dev
+	util.baseUrl = "fx.dev.galaxyinternet.com/authority_service";			//dev
     //util.baseUrl = "http://10.8.232.205/authority_service";		//online
     //util.baseUrl = "http://localhost:8099" + util.serviceName;		//local
     // util.baseUrl = "http://fx.qa.galaxyinternet.com" + util.serviceName;		//qa
-    util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;		//qa
+    // util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;		//qa
 	
 	/**
 	 * 使用div来加载页面
