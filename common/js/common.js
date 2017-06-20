@@ -2,18 +2,12 @@
 
 $(function(){
 	var util = {};
-    //util.baseUrl = "http://fx.galaxyinternet.com/authority_service";					//rc
-    //util.baseUrl = "http://fx.qa.galaxyinternet.com/authority_service";					//qa
-	//util.baseUrl = "http://fx.dev.galaxyinternet.com/authority_service";				//dev
-    //util.baseUrl = "http://10.8.232.205/authority_service";							//online
-    //util.baseUrl = "http://fx.local.galaxyinternet.com/authority";					//localhost
-
 	util.serviceName = "/authority_service";
     util.webName = "/authority_web";
 
 	util.baseUrl = "http://fx.dev.galaxyinternet.com" + util.serviceName;			//dev
     //util.baseUrl = "http://10.8.232.205/authority_service";						//online
-    //util.baseUrl = "http://localhost:8099" + util.serviceName;					//local
+    //util.baseUrl = "http://fx.local.galaxyinternet.com" + util.serviceName;			//local
     // util.baseUrl = "http://fx.qa.galaxyinternet.com" + util.serviceName;			//qa
     // util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;			//rc
 	

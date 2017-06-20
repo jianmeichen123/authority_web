@@ -50,6 +50,7 @@ $(function(){
         //初始化
         $("#ddId").val("");
         $("#roleName").textbox("setText","");
+        $("#roleCode").textbox("setText","");
         $("#roleDemo").val("");
         $("#wriLen").html("0");
         $("#errorInfo").html("");
@@ -76,6 +77,7 @@ $(function(){
             var url = $.util.baseUrl + "/role/saveRole";
             var paramMap = {};
             paramMap.roleName = $("#roleName").textbox("getText");
+            paramMap.roleCode = $("#roleCode").textbox("getText");
             paramMap.oldRoleName = $("#oldRoleName").val();
             paramMap.roleDemo  = $("#roleDemo").val();
             var ddId = $("#ddId").val();
@@ -90,6 +92,7 @@ $(function(){
                     var pageSize = options.pageSize;
                     $.util.dialogClose(dialog_add);
                     $("#roleName").textbox("setText","");
+                    $("#roleCode").textbox("setText","");
                     $("#roleDemo").val("");
                     $("#ddId").val("");
                     loadOne(curr,pageSize);
@@ -98,6 +101,7 @@ $(function(){
                     $("#imgInfo").html("*");
                     $("#wriLen").html("0");
                     $("#roleName").textbox("setText","");
+                    $("#roleCode").textbox("setText","");
                     $("#roleDemo").val("");
                     $("#ddId").val("");
                 }
@@ -176,6 +180,7 @@ function fun_operation(state,index) {
     if (state == 1) {
         $("#wriLen").html(rows[index].roleDemo.length);
         $("#roleName").textbox("setText",rows[index].roleName);
+        $("#roleCode").textbox("setText",rows[index].roleCode);
         $("#oldRoleName").val(rows[index].roleName);
         $("#roleDemo").val(rows[index].roleDemo);
         $("#ddId").val(id);
