@@ -11,6 +11,7 @@ $(function(){
     // util.baseUrl = "http://fx.qa.galaxyinternet.com" + util.serviceName;			//qa
     //util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;			//rc
 
+
     /**
      * 使用div来加载页面
      */
