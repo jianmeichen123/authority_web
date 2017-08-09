@@ -88,9 +88,17 @@
 				</tr>
 
 				<tr>
+					<td class="label">管理员：</td>
+					<td>
+						<input id="admin" name="admin" type="radio" value="0" checked="checked"/>否&nbsp;&nbsp;
+						<input id="admin" name="admin" type="radio" value="1" />是
+					</td>
+				</tr>
+
+				<tr>
 					<td class="label">职位：</td>
 					<td>
-						<input id="position" class="easyui-combobox" name="dept" style="width: 300px;" data-options="valueField:'id',textField:'text'">
+						<input id="position" class="easyui-combobox" name="dept" style="width: 300px;" data-options="editable:false,valueField:'id',textField:'text'">
 						<span id="positionInfo" style="color:red;width:auto;display:inline-block">*</span>
 					</td>
 				</tr>

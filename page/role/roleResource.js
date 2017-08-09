@@ -281,6 +281,7 @@ function otherDeptTrees(flag) {
     };
     var url = $.util.baseUrl + "/depart/getDepartTree";
     var paramObj = {};
+    paramObj.isShow = 1;
     $.util.postObj(url,JSON.stringify(paramObj),function(data){
         if(flag==0){
             zTreeObj = $.fn.zTree.init($("#other_dept_tree"), setting, data);

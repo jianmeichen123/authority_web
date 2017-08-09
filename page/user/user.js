@@ -106,6 +106,7 @@ $(function(){
         $("#position").combo('setText',"");
         $("#position").combo('setText',"");
         $("input[type='radio'][name='sex']").get(0).checked = true;
+        $("input[type='radio'][name='admin']").get(0).checked = true;
         $("#employNo").textbox("setText","");
         $("#telPhone").textbox("setText","");
         $("#address").textbox("setText","");
@@ -222,6 +223,7 @@ $(function(){
             paramMap.positionId = $("#position").combo('getValue');
             paramMap.userId = $("#userId").val();
             paramMap.sex = $("input[name='sex']:checked").val();
+            paramMap.isAdmin = $("input[name='admin']:checked").val();
             paramMap.employNo = $("#employNo").textbox("getText");
             paramMap.telPhone = $("#telPhone").textbox("getText");
             paramMap.address = $("#address").textbox("getText");
@@ -241,6 +243,7 @@ $(function(){
                     $("#position").combo('setText',"");
                     $("#position").combo('setText',"");
                     $("input[type='radio'][name='sex']").get(0).checked = true;
+                    $("input[type='radio'][name='admin']").get(0).checked = true;
                     $("#employNo").textbox("setText","");
                     $("#telPhone").textbox("setText","");
                     $("#address").textbox("setText","");
@@ -423,7 +426,7 @@ function fun_outtageOrDelOrReset(state,index){
     var paramMap = {};
     var rows = $('#dg').datagrid("getRows");
     paramMap.id=rows[index].userId;
-
+    var id = rows[index].userId;
     if(state==0){
         paramMap.isOuttage = 1;
         $.util.postObj(url,JSON.stringify(paramMap),function (data) {
@@ -441,13 +444,19 @@ function fun_outtageOrDelOrReset(state,index){
             }
         });
     }else if(state==3){
-        var url = $.util.baseUrl + "/user/delete";
-        $.util.postObj(url,JSON.stringify(paramMap),function (data) {
+        checkBindRole(id,function(data) {
             if(data.success){
-                alert("删除成功");
-                loadData(curr,pageSize);
+                var url = $.util.baseUrl + "/user/delete";
+                $.util.postObj(url,JSON.stringify(paramMap),function (data) {
+                    if(data.success){
+                        alert("删除成功");
+                        loadData(curr,pageSize);
+                    }
+                });
+            }else{
+                alert("请先解绑用户角色才能删除此用户");
             }
-        });
+        })
     }else if(state==5){
         //回显
         var obj = rows[index];
@@ -467,6 +476,7 @@ function fun_outtageOrDelOrReset(state,index){
         $('#depart').combotree('setValue', {id: obj.depId,text: obj.depName});
         $("#userId").val(obj.userId)
         $("input[type='radio'][name='sex']").get(obj.sex).checked = true;
+        $("input[type='radio'][name='admin']").get(obj.isAdmin).checked = true;
         $("#employNo").textbox("setText",obj.employNo);
         $("#telPhone").textbox("setText",obj.telPhone);
         $("#address").textbox("setText",obj.address);
@@ -477,6 +487,16 @@ function fun_outtageOrDelOrReset(state,index){
         $("#resetName").html(rows[index].loginName);
         $("#rUserId").val(rows[index].userId);
         $.util.dialogOpen(resetPassword);
+    }
+
+    //检测角色是否有关联账号
+    function checkBindRole(userId,fn){
+        var url = $.util.baseUrl + "/user/checkBindRole";
+        var paramObj = {};
+        paramObj.userId = userId;
+        $.util.postObj(url,JSON.stringify(paramObj),function(data){
+            fn(data);
+        });
     }
 
 }
