@@ -34,12 +34,12 @@ function resourceInit() {
         checkOnSelect: false,
         selectOnCheck: false,
         columns:[[
-            {field: 'id', title: '<input name="checkId" type="checkbox" onclick="checkBoxAll(this)">', width:'5%',align: 'left',
+            {field: 'id', title: '<input id="allInputSelect" name="checkId" type="checkbox" onclick="checkBoxAll(this)">', width:'5%',align: 'left',
                 formatter: function (value, rec, rowIndex) {
                     if(rec.inputflag==1){
-                        return '<input type="checkbox"  name="checkId" value=' + rec.id + ' checked ="checked">';
+                        return '<input type="checkbox"  name="checkId" onclick="checkBoxOne()" value=' + rec.id + ' checked ="checked">';
                     }else{
-                        return '<input type="checkbox"  name="checkId" value=' + rec.id + '>';
+                        return '<input type="checkbox"  name="checkId" onclick="checkBoxOne()" value=' + rec.id + '>';
                     }
                 }
             },
@@ -107,7 +107,16 @@ function zTreeOnClick(event, treeId, treeNode){
     $("#res_resourceId").val(treeNode.id);
     $.util.postObj(url,JSON.stringify(paramObj),function(data){
         if(data.success){
+            var count=0;
+            var obj = eval(data.value);
+            for(var i=0;i<obj.length;i++){
+                if(obj[i].inputflag==1){
+                    count++;
+                }
+            }
             $('#resource_dg').datagrid('loadData', data.value);
+            document.getElementById('allInputSelect').checked = count==obj.length ? true : false;
+            $("#inputFlagCount").val(count>0?"1":"0");
         }
     });
 }
@@ -122,6 +131,25 @@ function checkBoxAll(obj){
             allInput[i].checked = obj.checked;
         }
     }
+}
+
+//单个复选框
+function checkBoxOne(){
+    var allInput = document.getElementsByName("checkId");
+    var allInputSize = allInput.length;
+    var count=0;
+    for(var i = 0;i < allInputSize;i++){
+        if(allInput[i].type == "checkbox")
+        {
+            if(allInput[i].checked){
+                count++;
+            }
+        }
+    }
+    if(document.getElementById('allInputSelect').checked){
+        count--;
+    }
+    document.getElementById('allInputSelect').checked = count==(allInputSize-1) ? true : false;
 }
 
 //取消权限设置对话框
@@ -169,9 +197,21 @@ function saveResource() {
             strCheck+=str+';'
         }
     }
-    if(strCheck==''){
-        strCheck=resourceId+':no';
+    var message = "设置成功";
+    var inputFlagCount = $("#inputFlagCount").val();
+    if(inputFlagCount=="0"){
+        if(strCheck==''){
+            message="请选择功能模块";
+            alert(message);
+        }
+    }else{
+        message="设置成功";
+        if(strCheck==''){
+            strCheck=resourceId+':no';
+            $("#inputFlagCount").val("0");
+        }
     }
+    checkBoxOne();
     //请求业务
     if(strCheck!=''){
         var url = $.util.baseUrl + "/role/saveResource";
@@ -181,7 +221,8 @@ function saveResource() {
         paramMap.strCheck = strCheck;
         $.util.postObj(url,JSON.stringify(paramMap),function (data) {
             if(data.success){
-                alert("设置成功");
+                $("#inputFlagCount").val(strCheck!=(resourceId+':no')?"1":"0");
+                alert(message);
             }
         });
     }
