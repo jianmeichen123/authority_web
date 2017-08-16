@@ -158,7 +158,7 @@ function add(){
             var obj = eval(data.value);
             var element = document.getElementById("choosed");
             for(var i=0;i<obj.length;i++){
-                if(obj[i].flag==0){
+                if(obj[i].flag==0 ||obj[i].flag==1){
                     element.options.add(new Option(obj[i].name,obj[i].id));
                 }else{
                     existName+=obj[i].name+'，';
