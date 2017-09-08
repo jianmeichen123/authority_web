@@ -132,6 +132,7 @@
     </div>
     <div data-options="region: 'center',border: false" style=""  id="content">
         <input id="roleId" type="hidden">
+        <input id="isOutage" type="hidden">
         <table id="bind_dg"></table>
     </div>
 </div>
@@ -162,6 +163,7 @@
                 <select id="choosed" multiple class="choosecp-right choosecp-list">
                 </select>
                 <input id="rid" type="hidden"/>
+                <input id="isOuttage" type="hidden"/>
             </div>
         </div>
     </div>
@@ -184,16 +186,6 @@
                 </p>
             </div>
         </div>
-        <!--<p style="font-weight:bold;font-size: 14px;margin-top: 5px;margin-left: 20px;">
-            角色名称：<span id="rName"></span>
-        </p>
-        <p class="sp" style="font-weight:bold;font-size: 14px;margin-left: 20px;">
-            角色描述：<span id="rDesc"></span>
-        </p>
-        <p>
-            <button id="res_save" style="margin-left: 1020px" onclick="saveResource()">保存</button>
-            <button id="res_close" onclick="closeResource()">取消</button>
-        </p>-->
     </div>
     <div class="left">
         <ul id="rTree" class="ztree"></ul>
@@ -201,6 +193,7 @@
     <div class="right">
         <input id="res_roleId" type="hidden"/>
         <input id="res_resourceId" type="hidden"/>
+        <input id="inputFlagCount" type="hidden"/>
         <table id="resource_dg" style="width: 100%"></table>
     </div>
 </div>

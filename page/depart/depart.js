@@ -129,6 +129,7 @@ $(function(){
         //初始化树型下拉列表
         var url = $.util.baseUrl + "/depart/getDepartComboxTree";
         var paramMap = {};
+        paramMap.isShow = 1;
         $.util.postObj(url,JSON.stringify(paramMap),function(data){
             $("#cc").combotree({data: data});
             $("#cc").combotree("setValue",{id: node.id,name: node.name});
@@ -206,6 +207,7 @@ $(function(){
 	    //加载部门下拉列表
         var url = $.util.baseUrl + "/depart/getDepartComboxTree";
         var paramMap = {};
+        paramMap.isShow = 1;
         $.util.postObj(url,JSON.stringify(paramMap),function(data){
             var findDepData = $.util.copyArray(data,{"id": "","text": "全部"});
             $("#find_dep_combotree").combotree({data: findDepData});
@@ -284,6 +286,7 @@ function loadList(parentId){
 function loadZtree(id){
     var url = $.util.baseUrl + "/depart/getDepartTree";
     var paramObj = {};
+    paramObj.isShow = 1;
     $.util.postObj(url,JSON.stringify(paramObj),function(data){
         zTreeObj = $.fn.zTree.init($("#tree"), setting, data);
 
@@ -342,6 +345,7 @@ function fun_edit(index){
     //初始化树型下拉列表
     var url = $.util.baseUrl + "/depart/getDepartComboxTree";
     var paramMap = {};
+    paramMap.isShow = 1;
     $.util.postObj(url,JSON.stringify(paramMap),function(data){
         $("#cc").combotree({data: data});
         $("#cc").combotree("setValue",{id: superId,name: superName});
