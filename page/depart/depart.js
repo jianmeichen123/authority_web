@@ -160,6 +160,9 @@ $(function(){
         paramJson.depName = $("#departName").textbox("getText");
         paramJson.oldDepName = $("#oldDepartName").val();
         paramJson.id = $("#depId").val();
+        if($("#departManagerName").textbox("getText").replace(/\s/g, "") == ''){
+            $("#departManagerId").val('');
+        }
         paramJson.depManager = $("#departManagerId").val();
         paramJson.isCareerLine = $("input[name='isCareerLine']:checked").val();
         //校验
