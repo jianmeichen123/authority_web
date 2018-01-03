@@ -5,11 +5,11 @@ $(function(){
 	util.serviceName = "/authority_service";
     util.webName = "/authority_web";
 
-	//util.baseUrl = "http://fx.dev.galaxyinternet.com" + util.serviceName;			//dev
-    //util.baseUrl = "http://fx.galaxyinternet.com" + util.serviceName;				//online
-    //util.baseUrl = "http://fx.local.galaxyinternet.com" + util.serviceName;		//local
-	util.baseUrl = "http://fx.qa.galaxyinternet.com" + util.serviceName;			//qa
-	//util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;			//rc
+	//util.baseUrl = "https://fx.dev.galaxyinternet.com" + util.serviceName;			//dev
+    //util.baseUrl = "https://fx.galaxyinternet.com" + util.serviceName;				//online
+    //util.baseUrl = "https://fx.local.galaxyinternet.com" + util.serviceName;		//local
+	util.baseUrl = "https://fx.qa.galaxyinternet.com" + util.serviceName;			//qa
+	//util.baseUrl = "https://fx.rc.galaxyinternet.com" + util.serviceName;			//rc
 	
 	/**
 	 * 使用div来加载页面
