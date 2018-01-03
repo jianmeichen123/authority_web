@@ -195,7 +195,6 @@ function fun_operation(state,index) {
     else if(state == 3){
         //页面传值
         $("#roleId").val(id);
-        $("#isOutage").val(rows[index].isOuttage);
         //初始化列表
         bindInit();
         //加载页面信息
@@ -223,7 +222,6 @@ function fun_operation(state,index) {
     $("#bind_add").unbind("click").bind("click",function(){
         //页面传值
         $("#rid").val(id);
-        $("#isOuttage").val($("#isOutage").val());
         $("#dataSource").empty();
         $("#choosed").empty();
         //回显已选人员

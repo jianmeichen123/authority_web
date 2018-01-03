@@ -115,7 +115,7 @@ function add(){
             if(node!=''&&node!='on'){
                 var nodeId=node.split(":")[0];
                 var nodeName=node.split(":")[1];
-                //var element = document.getElementById("choosed");
+                var element = document.getElementById("choosed");
                 var purityTypeL = document.getElementById('choosed').options.length;
                 var purityTypeO = document.getElementById('choosed').options;
                 if(purityTypeL != '0'){
@@ -128,13 +128,13 @@ function add(){
                     }
 
                     if(addbut1[i].checked){
-                        //element.options.add(new Option(nodeName,nodeId));
+                        element.options.add(new Option(nodeName,nodeId));
                         ele+=nodeId+',';
                         addbut1[i].checked = false;
                         flag = true;
                     }
                 }else{
-                    //element.options.add(new Option(nodeName,nodeId));
+                    element.options.add(new Option(nodeName,nodeId));
                     ele+=nodeId+',';
                     addbut1[i].checked = false;
                     flag = true;
@@ -149,66 +149,26 @@ function add(){
     }
 
     //已选用户判断是否已经绑定角色，去掉已绑定的用户
-    var url = $.util.baseUrl + "/role/isRelRoleUser";
+   /* var url = $.util.baseUrl + "/role/isRelRoleUser";
     var paramMap = {};
     paramMap.userIdStr = ele;
     $.util.postObj(url, JSON.stringify(paramMap), function (data) {
         if (data.success) {
-            //var existName ='';
+            var existName ='';
             var obj = eval(data.value);
             var element = document.getElementById("choosed");
-            /*var nameCount='';
             for(var i=0;i<obj.length;i++){
-                if(obj[i].isOuttage==0 ||obj[i].isOuttage==2){
-                    if(obj[i].nums<1){
-                        element.options.add(new Option(obj[i].name,obj[i].id));
-                    }else{
-                        if(existName.indexOf(obj[i].name)==-1){
-                            existName+=obj[i].name+',';
-                        }
-                    }
-                    nameCount=nameCount+obj[i].name
-                }else{
+                if(obj[i].flag==0){
                     element.options.add(new Option(obj[i].name,obj[i].id));
-                }
-            }*/
-            var nameCount='';
-            var idCount='';
-            var isOuttage = $("#isOuttage").val()
-            for(var i=0;i<obj.length;i++){
-                if(obj[i].isOuttage==0 ||obj[i].isOuttage==2){
-                    if(isOuttage==obj[i].isOuttage && obj[i].nums==1){
-                        if(nameCount.indexOf(obj[i].name)==-1){
-                            nameCount+=obj[i].name+',';
-                        }
-                        if(idCount.indexOf(obj[i].id)!=-1){
-                            element.options.remove((idCount.split(obj[i].id)[1]).substring(0,1));
-                        }
-                        idCount = idCount + obj[i].id+i+',';
-                    }else {
-                        if(obj[i].nums<1){
-                            element.options.add(new Option(obj[i].name,obj[i].id));
-                        }else{
-                            if(idCount.indexOf(obj[i].id)!=-1){
-                                element.options.remove((idCount.split(obj[i].id)[1]).substring(0,1));
-                                if(nameCount.indexOf(obj[i].name)==-1){
-                                    nameCount+=obj[i].name+',';
-                                }
-                            }else{
-                                idCount = idCount + obj[i].id+i+',';
-                                element.options.add(new Option(obj[i].name,obj[i].id));
-                            }
-                        }
-                    }
                 }else{
-                    element.options.add(new Option(obj[i].name,obj[i].id));
+                    existName+=obj[i].name+'，';
                 }
             }
-            if(nameCount!=''){
-                alert("其中 "+nameCount.substring(0,nameCount.length-1)+" 用户已绑定角色");
+            if(existName!=''){
+                alert("其中"+existName+"这些用户已绑定角色")
             }
         }
-    })
+    })*/
 }
 
 //移除
