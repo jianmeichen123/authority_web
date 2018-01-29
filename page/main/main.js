@@ -3,8 +3,8 @@
 
 $(function(){
 	//设置默认菜单-账号
-    $("#menu_role").css("color","#199ed7");
-    $("#content").attr("src",$.util.webName + "/page/role/role.html");  //?sessionId=" + $.util.getSessionId()
+    $("#menu_depart").css("color","#199ed7");
+    $("#content").attr("src",$.util.webName + "/page/depart/depart.html");  //?sessionId=" + $.util.getSessionId()
 
     //设置登录人姓名
     $("#span_user_name").html($.cookie("userName"));
