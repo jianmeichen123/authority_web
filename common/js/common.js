@@ -6,8 +6,8 @@ $(function(){
     util.webName = "/authority_web";
 
     //util.baseUrl = "http://fx.dev.galaxyinternet.com" + util.serviceName;			//dev
-    //util.baseUrl = "http://fx.galaxyinternet.com" + util.serviceName;				//online
-    util.baseUrl = "http://fxnew.galaxyinternet.com" + util.serviceName;			//集群
+    util.baseUrl = "http://fx.galaxyinternet.com" + util.serviceName;				//online
+    //util.baseUrl = "http://fxnew.galaxyinternet.com" + util.serviceName;			//集群
     //util.baseUrl = "http://fx.local.galaxyinternet.com" + util.serviceName;		//local
     //util.baseUrl = "http://fx.qa.galaxyinternet.com" + util.serviceName;			//qa
     //util.baseUrl = "http://fx.rc.galaxyinternet.com" + util.serviceName;			//rc
