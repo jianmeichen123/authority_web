@@ -236,7 +236,8 @@ function otherSet(id) {
     $("#resId").val(id);
     //资源模块对应隐藏的id
     var rs =$("#resId"+id).val().split("#");
-    if(rs!=null&&rs!=''){
+
+    if(rs!=null&&rs!=''&&rs!='undefined'){
         if(rs[0]==0){
             $("#deptChoose").empty();
             $("#other_sel").val(0);
@@ -255,6 +256,7 @@ function otherSet(id) {
             showUernameOrDeptName(rs[0],rs[1]);
         }
     }else{
+
         //选择其他选项，默认为部门页面且清空数据
         $("#deptChoose").empty();
         $("#other_sel").val(0);
